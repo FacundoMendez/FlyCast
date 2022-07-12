@@ -56,6 +56,149 @@ const sceneSpace = () => {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 
+
+
+
+        // Stars 
+
+
+        const starsGeometry =new THREE.BufferGeometry()
+        const count = 4000
+
+        const colors = new Float32Array(count * 3)
+        const positions = new Float32Array(count * 3) 
+        let geometry = null
+        let material = null
+        let points = null
+
+        
+
+        for(let i = 0; i < count * 3; i++) {
+
+            if(points !== null)
+            {
+                geometry.dispose()
+                material.dispose()
+                scene.remove(points)
+            }
+
+            positions[i] = (Math.random() - 0.5) * 45
+            colors[i] = Math.random()
+        }
+
+
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+        starsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+        
+
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.07,
+            sizeAttenuation: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+            color: new THREE.Color("#ffc0ff"),
+        })
+
+        const particles = new THREE.Points(starsGeometry, particlesMaterial)
+        particlesMaterial.alphaTest = 0.5
+        /* particlesMaterial.vertexColors = true */
+
+        scene.add(particles)
+
+
+
+
+
+        /* aureola  */
+
+
+        const parameters = {}
+            parameters.count = 6000
+            parameters.size = 0.04
+            parameters.radius = 5
+            parameters.branches = 3
+            parameters.spin = 1
+            parameters.randomness = 0.2
+            parameters.randomnessPower = 3
+            parameters.insideColor = '#ff6030'
+            parameters.outsideColor = '#1b3984'
+
+            let geometryAureola = null
+            let materialAureola = null
+            let pointsAureola = null
+        
+
+            let geometryAureolaStars = new THREE.BufferGeometry()
+
+            const positionsAureola = new Float32Array(parameters.count * 3)
+            const colorsAureola  = new Float32Array(parameters.count * 3)
+
+         
+        
+            for(let i = 0; i < parameters.count; i++)
+            {
+
+                if(pointsAureola !== null)
+                {
+                    geometryAureola.dispose()
+                    materialAureola.dispose()
+                    scene.remove(pointsAureola)
+                }
+    
+         
+
+                const i3 = i * 3
+
+                const radius = Math.random() * parameters.radius
+        
+                const spinAngle = radius * parameters.spin
+                const branchAngle = (i % parameters.branches) / parameters.branches * Math.PI * 2
+                
+                const randomX = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+                const randomY = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+                const randomZ = Math.pow(Math.random(), parameters.randomnessPower) * (Math.random() < 0.5 ? 1 : - 1) * parameters.randomness * radius
+
+                const colorInside = new THREE.Color(parameters.insideColor)
+                const colorOutside = new THREE.Color(parameters.outsideColor)
+
+                const mixedColor = colorInside.clone()
+                mixedColor.lerp(colorOutside, radius / parameters.radius)
+
+
+                positionsAureola[i3    ] = Math.cos(branchAngle + spinAngle) * radius + randomX
+                positionsAureola[i3 + 1] = randomY
+                positionsAureola[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
+
+                colorsAureola[i3    ] = .5
+                colorsAureola[i3 + 1] = .4
+                colorsAureola[i3 + 2] = .9
+
+            }
+        
+            geometryAureolaStars.setAttribute('position', new THREE.BufferAttribute(positionsAureola , 3))
+            geometryAureolaStars.setAttribute('color', new THREE.BufferAttribute(colorsAureola, 3))
+
+            const materialAureolaStars = new THREE.PointsMaterial({
+                size: parameters.size,
+                sizeAttenuation: true,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending,
+                vertexColors: true
+            })
+
+            const pointsAureolaMesh  = new THREE.Points(geometryAureolaStars, materialAureolaStars)
+
+            pointsAureolaMesh .position.set(7, 2, -15)
+            pointsAureolaMesh .rotation.x = .4
+            scene.add(pointsAureolaMesh )
+
+
+
+
+
+
+
         /* fonts */
 
 
@@ -81,7 +224,7 @@ const sceneSpace = () => {
             'Creative  Developer',
             {
                 font: font,
-                size: 0.25,
+                size: 0.3,
                 height: .04,
                 curveSegments: 10,
                 bevelEnabled: true,
@@ -92,19 +235,20 @@ const sceneSpace = () => {
             }
         )
         
-        const textMaterial = new THREE.MeshStandardMaterial({color: 0xa44dff}) /* 0xa44dff   0x00dd55*/
-        textMaterial.metalness = 0.58
-        textMaterial.roughness = .1
+        const textMaterial = new THREE.MeshNormalMaterial() /* 0xa44dff   0x00dd55*/
+      /*   textMaterial.metalness = 0.58
+        textMaterial.roughness = .1 */
 
 
         const text2 = new THREE.Mesh(textGeometry2, textMaterial) /* pixel perfect */
-        text2.position.set(.5 ,-.2, 1)
+        text2.position.set(.5 ,0, 1)
         text2.rotation.y= -.1
-        text2.rotation.x= .05
+        text2.rotation.x= .15
+
         const text = new THREE.Mesh(textGeometry, textMaterial) /* creative dev */
-        text.position.set(16.5 , -.2, .2)
+        text.position.set(16 , -.2, .2)
         text.rotation.y= .6
-        text.rotation.x= .01
+        text.rotation.x= .15
 
    
         scene.add(text, text2)
@@ -132,35 +276,6 @@ const sceneSpace = () => {
 
 
 
-
-        // Geometry
-        const starsGeometry = new THREE.BufferGeometry()
-        const count = 3000
-
-        const colors = new Float32Array(count * 3)
-
-        const positions = new Float32Array(count * 3) 
-
-        for(let i = 0; i < count * 3; i++) 
-        {
-            positions[i] = (Math.random() - 0.5) * 45 
-            colors[i] = Math.random()
-        }
-        starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-        starsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.04,
-            sizeAttenuation: true,
-            color: new THREE.Color("#ffc0ff"),
-
-        })
-
-        const particles = new THREE.Points(starsGeometry, particlesMaterial)
-        particlesMaterial.alphaTest = 0.5
-        /* particlesMaterial.vertexColors = true */
-
-        scene.add(particles)
 
 
 
@@ -212,13 +327,15 @@ const sceneSpace = () => {
       
         const animate = () =>{
 
-            particles.rotation.y -= 0.002
+            particles.rotation.y -= 0.001
             text.rotation.x -= 0.0001
-            text.position.x -= 0.0005
+            text.position.x -= 0.0001
 
             text2.rotation.x -= 0.0001
-            text2.position.x -= 0.0005
-            
+            text2.position.x -= 0.0001
+            pointsAureolaMesh.rotation.y -= 0.004
+
+
             renderer.render(scene,camera)
             window.requestAnimationFrame(animate)
             renderer.autoClear = true

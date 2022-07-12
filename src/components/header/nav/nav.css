@@ -12,6 +12,19 @@
     overflow: hidden;
 }
 
+.ballHome{
+  width: 4rem;
+  height: 4rem;
+  position: relative;
+  top: -.8rem;
+  background-color: white;
+  border-radius: 100%;
+  background-image: linear-gradient(90deg,#ffb4a1 16.66666%,#f5c0b2 33.33333%,#aee8fa 50%,#68bde7 66.66666%,#6bd490 83.33333%,#a2f6cf);
+  background-size: 80%;
+  animation: animate 4s linear infinite;
+  cursor: pointer;
+}
+
 .lineNav{
     width: 1%;
     position: relative;
