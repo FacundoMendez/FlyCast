@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
-import typefaceFont from 'three/examples/fonts/LLPixel_Regular.json'
+import typefaceFont from '../../fonts/LLPixel_Regular.json'
 
 
 const sceneSpace = () => {
