@@ -114,8 +114,8 @@ const sceneSpace = () => {
 
 
         const parameters = {}
-            parameters.count = 6000
-            parameters.size = 0.04
+            parameters.count = 8000
+            parameters.size = 0.02
             parameters.radius = 5
             parameters.branches = 3
             parameters.spin = 1
@@ -170,9 +170,9 @@ const sceneSpace = () => {
                 positionsAureola[i3 + 1] = randomY
                 positionsAureola[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
 
-                colorsAureola[i3    ] = .5
-                colorsAureola[i3 + 1] = .4
-                colorsAureola[i3 + 2] = .9
+                colorsAureola[i3    ] = 1
+                colorsAureola[i3 + 1] = .49
+                colorsAureola[i3 + 2] = 1
 
             }
         
