@@ -242,7 +242,6 @@ const sceneSpace = () => {
 
         const text2 = new THREE.Mesh(textGeometry2, textMaterial) /* pixel perfect */
         text2.position.set(.5 ,0, 1)
-        text2.rotation.y= -.1
         text2.rotation.x= .15
 
         const text = new THREE.Mesh(textGeometry, textMaterial) /* creative dev */
