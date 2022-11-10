@@ -4,7 +4,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import typefaceFont from '../../fonts/LLPixel_Regular.json'
-
+import { Power1 } from 'gsap';
 
 const sceneSpace = () => {
 
@@ -241,11 +241,11 @@ const sceneSpace = () => {
 
 
         const text2 = new THREE.Mesh(textGeometry2, textMaterial) /* pixel perfect */
-        text2.position.set(.5 ,0, 1)
+        text2.position.set(.5 ,0, 2.2)
         text2.rotation.x= .15
 
         const text = new THREE.Mesh(textGeometry, textMaterial) /* creative dev */
-        text.position.set(16 , -.2, .2)
+        text.position.set(15.9 , -.2, .2)
         text.rotation.y= .6
         text.rotation.x= .15
 
@@ -320,6 +320,7 @@ const sceneSpace = () => {
                         scrub: 5,
                     }
                 })
+                
         }
 
         transitionHeader()
@@ -327,11 +328,7 @@ const sceneSpace = () => {
         const animate = () =>{
 
             particles.rotation.y -= 0.001
-            text.rotation.x -= 0.0001
-            text.position.x -= 0.0001
 
-            text2.rotation.x -= 0.0001
-            text2.position.x -= 0.0001
             pointsAureolaMesh.rotation.y -= 0.004
 
 

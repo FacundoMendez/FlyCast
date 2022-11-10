@@ -15,14 +15,14 @@ const preloadScroll = () => {
     gsap.to(".lineNav",{
         opacity:1,
         duration:1.5,
-        delay:4.8,
-        width:"45%"
+        delay:4,
+        width:"50%"
     })
     
     gsap.to(".listNav",{
         opacity:1,
         duration:2,
-        delay:6.5,
+        delay:6,
     })
 
     /* present */

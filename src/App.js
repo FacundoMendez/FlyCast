@@ -12,7 +12,7 @@ function App() {
       <Nav/>
       <Present /> 
       <Scene />
-      <Resumen />
+{/*       <Resumen /> */}
     </div>
   );
 }
