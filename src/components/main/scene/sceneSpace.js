@@ -38,6 +38,7 @@ const sceneSpace = () => {
         // Base camera
         const camera = new THREE.PerspectiveCamera(35, size.width / size.height, 0.1, 100)
         camera.position.z = 6
+        camera.position.y = 19
         cameraGroup.add(camera)
         
 
@@ -278,49 +279,86 @@ const sceneSpace = () => {
 
 
 
-        /* pruebas */
-
-        
 
         const transitionHeader = () =>{
+
+
             gsap.registerPlugin(ScrollTrigger);
+            //set camera position
+            camera.position.y = 19;
+            camera.position.z = 6;
+            camera.position.x = 0;
 
-                gsap.to(camera.position,{
-                    y : 22,
-                    duration:1,
-                    scrollTrigger:{
-                        trigger: ".webGlScene",
-                        start: "top 600px",
-                        pin: true,
-                        scrub: 5,
-                        end: "+= 100%"
-                    }
-                })
+            
 
-                gsap.to(camera.position,{
-                    x: 19.5,
-                    delay:5,
+            const tl = gsap.timeline({
+                default: {
+                    ease: Power1,
                     duration:5,
-                    scrollTrigger:{
-                        trigger: ".webGlScene",
+                }
+            });
+        
+                tl.to(camera.position,{
+                    y :0,
+                    z: 7,
+                    x: 0,
+                    duration:5,
+                    scrollTrigger: {
+                        trigger: ".box1",
                         start: "top top",
-                        pin: true,
+                        end:"bottom bottom",
                         scrub: 5,
                     }
                 })
 
-                gsap.to(camera.rotation,{
-                    y: .7,
-                    delay:10,
-                    duration:5,
-                    scrollTrigger:{
-                        trigger: ".webGlScene",
+                tl.to(camera.position,{
+                    x: 21,
+                    scrollTrigger: {
+                        trigger: ".box2",
                         start: "top top",
-                        pin: true,
                         scrub: 5,
                     }
                 })
+
+                tl.to(camera.rotation,{
+                    y:.7,
+                    scrollTrigger: {
+                        trigger: ".box3",
+                        start: "top top",
+                        scrub: 5,
+                    }
+                })
+                 
+
+                tl.to(camera.position,{
+                    z: -10,
+                    scrollTrigger: {
+                        trigger: ".box4",
+                        start: "top top",
+                        scrub: 5,
+                    }
+                })
+
+                tl.to(pointsAureolaMesh.position,{
+                    x:19,
+                    y: .3,
+                    scrollTrigger: {
+                        trigger: ".box5",
+                        start: "top top",
+                        scrub: 5,
+                    }
+                })
+
                 
+                tl.to(pointsAureolaMesh.rotation,{
+                    yPercent:"-=3",
+                    scrollTrigger: {
+                        trigger: ".box5",
+                        start: "top top",
+                        scrub: 5,
+                    }
+                })
+       
         }
 
         transitionHeader()
@@ -328,9 +366,7 @@ const sceneSpace = () => {
         const animate = () =>{
 
             particles.rotation.y -= 0.001
-
-            pointsAureolaMesh.rotation.y -= 0.004
-
+            pointsAureolaMesh.rotation.y -= 0.005
 
             renderer.render(scene,camera)
             window.requestAnimationFrame(animate)

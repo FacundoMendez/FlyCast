@@ -13,7 +13,7 @@ const Present = () => {
                 <span>Developer.</span> 
             </h1>
               <section id="section03" className="demo">
-                <a href="#containerScene" onClick={() => effectTransition()}><span></span></a>  
+                <a href="#box2" onClick={() => effectTransition()}><span></span></a>  
               </section>
     </div>
   )
