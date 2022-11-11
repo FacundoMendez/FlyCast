@@ -64,7 +64,7 @@ const sceneSpace = () => {
 
 
         const starsGeometry =new THREE.BufferGeometry()
-        const count = 4000
+        const count = 2000
 
         const colors = new Float32Array(count * 3)
         const positions = new Float32Array(count * 3) 
@@ -94,15 +94,15 @@ const sceneSpace = () => {
 
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.07,
+            size: 0.0,
             sizeAttenuation: true,
             depthWrite: false,
             blending: THREE.AdditiveBlending,
-            color: new THREE.Color("#ffc0ff"),
+            color: new THREE.Color("#55FF9D"),
         })
 
         const particles = new THREE.Points(starsGeometry, particlesMaterial)
-        particlesMaterial.alphaTest = 0.5
+        particlesMaterial.alphaTest = .4
         /* particlesMaterial.vertexColors = true */
 
         scene.add(particles)
@@ -115,13 +115,13 @@ const sceneSpace = () => {
 
 
         const parameters = {}
-            parameters.count = 8000
-            parameters.size = 0.02
-            parameters.radius = 5
+            parameters.count = 9000
+            parameters.size = 0.01
+            parameters.radius = 6
             parameters.branches = 3
             parameters.spin = 1
-            parameters.randomness = 0.2
-            parameters.randomnessPower = 3
+            parameters.randomness =1
+            parameters.randomnessPower = 5
             parameters.insideColor = '#ff6030'
             parameters.outsideColor = '#1b3984'
 
@@ -168,12 +168,12 @@ const sceneSpace = () => {
 
 
                 positionsAureola[i3    ] = Math.cos(branchAngle + spinAngle) * radius + randomX
-                positionsAureola[i3 + 1] = randomY
+                positionsAureola[i3 + 4] = randomY
                 positionsAureola[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ
 
-                colorsAureola[i3    ] = 1
-                colorsAureola[i3 + 1] = .49
-                colorsAureola[i3 + 2] = 1
+                colorsAureola[i3    ] = .2
+                colorsAureola[i3 + 1] = .59 /* intensiti */
+                colorsAureola[i3 + 2] = .4 
 
             }
         
@@ -199,71 +199,6 @@ const sceneSpace = () => {
 
 
 
-
-        /* fonts */
-
-
-        let loader = new FontLoader()
-        let font = loader.parse(typefaceFont);
-
-        const textGeometry2 = new TextGeometry(
-            'Pixel  Perfectionist',
-            {
-                font: font,
-                size: 0.2,
-                height: .04,
-                curveSegments: 10,
-                bevelEnabled: true,
-                bevelThickness: .04,
-                bevelSize: 0.008,
-                bevelOffset: 0,
-                bevelSegments: 10
-            }
-        )
-
-        const textGeometry= new TextGeometry(
-            'Creative  Developer',
-            {
-                font: font,
-                size: 0.3,
-                height: .04,
-                curveSegments: 10,
-                bevelEnabled: true,
-                bevelThickness: .04,
-                bevelSize: 0.008,
-                bevelOffset: 0,
-                bevelSegments: 10
-            }
-        )
-        
-        const textMaterial = new THREE.MeshNormalMaterial() /* 0xa44dff   0x00dd55*/
-      /*   textMaterial.metalness = 0.58
-        textMaterial.roughness = .1 */
-
-
-        const text2 = new THREE.Mesh(textGeometry2, textMaterial) /* pixel perfect */
-        text2.position.set(.5 ,0, 2.2)
-        text2.rotation.x= .15
-
-        const text = new THREE.Mesh(textGeometry, textMaterial) /* creative dev */
-        text.position.set(15.9 , -.2, .2)
-        text.rotation.y= .6
-        text.rotation.x= .15
-
-   
-        scene.add(text, text2)
-    
-
-        textGeometry.computeBoundingBox()
-        textGeometry.translate(
-            - (textGeometry.boundingBox.max.x - 0.02) * 0.5, 
-            - (textGeometry.boundingBox.max.y - 0.02) * 0.5, 
-            - (textGeometry.boundingBox.max.z - 0.03) * 0.5  
-        )
-        textGeometry.center()
-
-
-
            // ambient light
            const ambientlight = new THREE.AmbientLight(0xffffff,2);
            scene.add(ambientlight);
@@ -273,11 +208,6 @@ const sceneSpace = () => {
            pointLight.position.set(10, 22, 20);
            scene.add(pointLight);
            
-
-
-
-
-
 
 
         const transitionHeader = () =>{
@@ -290,7 +220,6 @@ const sceneSpace = () => {
             camera.position.x = 0;
 
             
-
             const tl = gsap.timeline({
                 default: {
                     ease: Power1,
@@ -311,6 +240,18 @@ const sceneSpace = () => {
                     }
                 })
 
+                tl.from(".container1_text",{
+                    xPercent: "-= 300",
+                    opacity: -3,
+                    scale: -3,
+                    scrollTrigger: {
+                        trigger: ".box2",
+                        start: "top 800px",
+                        end:"bottom bottom",
+                        scrub: 5,
+                    }
+                })
+
                 tl.to(camera.position,{
                     x: 21,
                     scrollTrigger: {
@@ -320,6 +261,20 @@ const sceneSpace = () => {
                     }
                 })
 
+
+                tl.from(".container2_text",{
+                    xPercent: "-= 300",
+                    opacity: -3,
+                    scale: -3,
+                    scrollTrigger: {
+                        trigger: ".box3",
+                        start: "top 800px",
+                        end:"bottom bottom",
+                        scrub: 5,
+                    }
+                })
+
+
                 tl.to(camera.rotation,{
                     y:.7,
                     scrollTrigger: {
@@ -328,6 +283,20 @@ const sceneSpace = () => {
                         scrub: 5,
                     }
                 })
+
+
+                tl.from(".container3_text",{
+                    xPercent: "-= 300",
+                    opacity: -3,
+                    scale: -3,
+                    scrollTrigger: {
+                        trigger: ".box4",
+                        start: "top 800px",
+                        end:"bottom bottom",
+                        scrub: 5,
+                    }
+                })
+
                  
 
                 tl.to(camera.position,{
@@ -339,12 +308,26 @@ const sceneSpace = () => {
                     }
                 })
 
+                tl.from(".container4_text",{
+                    xPercent: "-= 300",
+                    opacity: -3,
+                    scale: -3,
+                    scrollTrigger: {
+                        trigger: ".box5",
+                        start: "top 800px",
+                        end:"bottom bottom",
+                        scrub: 5,
+                    }
+                })
+
+
                 tl.to(pointsAureolaMesh.position,{
                     x:19,
                     y: .3,
                     scrollTrigger: {
-                        trigger: ".box5",
-                        start: "top top",
+                        trigger: ".box6",
+                        start: "top 800px",
+                        end:"bottom bottom",
                         scrub: 5,
                     }
                 })
@@ -353,8 +336,21 @@ const sceneSpace = () => {
                 tl.to(pointsAureolaMesh.rotation,{
                     yPercent:"-=3",
                     scrollTrigger: {
-                        trigger: ".box5",
-                        start: "top top",
+                        trigger: ".box6",
+                        start: "top 800px",
+                        end:"bottom bottom",
+                        scrub: 5,
+                    }
+                })
+
+
+                           
+                tl.to(pointsAureolaMesh.rotation,{
+                    xPercent:"-=26",
+                    scrollTrigger: {
+                        trigger: ".box6",
+                        start: "top 300px",
+                        end:"bottom bottom",
                         scrub: 5,
                     }
                 })
