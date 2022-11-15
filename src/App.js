@@ -1,19 +1,29 @@
 import './App.css';
-import Nav from './components/header/nav/Nav';
-import Preload from './components/header/preload/Preload';
-import Present from './components/header/present/Present';
-import Resumen from './components/main/resumen/Resumen';
-import Scene from './components/main/scene/Scene';
+import Home from './components/home/Home';
+import React, {useState} from 'react'
+import Context from "./components/context/Context"
+import WaveAudio from './components/assets/waveAudio/WaveAudio';
+
 
 function App() {
+
+  const [audioActive, setAudioActive] = useState(true)
+
+  const changeAudio = () => {
+    setAudioActive(!audioActive)
+  }
+
+
+
   return (
-    <div className="App">
-      <Preload />
-      <Nav/>
-      <Present /> 
-      <Scene />
-{/*       <Resumen /> */}
-    </div>
+    <Context.Provider value={{audioActive, setAudioActive , changeAudio }}>
+      <div className="App" id='app'>
+        <Home/>
+        <div className="audioChange" onClick={() => changeAudio()}>
+          <WaveAudio/>
+        </div>
+      </div>
+    </Context.Provider>
   );
 }
 
