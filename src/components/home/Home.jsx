@@ -57,6 +57,7 @@ const Home = () => {
     <div className="home">
 
         <div className="containerPresent">
+          <div className="lineNav"></div>
             <h1 className='titlePresent'>
                 <span>Facundo</span>
                 <span>Mendez</span> <br />
