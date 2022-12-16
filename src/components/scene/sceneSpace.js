@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import pisoTextura from "./src/textureFloor.png"
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const sceneSpace = () => {
 
@@ -27,15 +27,12 @@ const sceneSpace = () => {
         })
 
 
-
         const cameraGroup = new THREE.Group()
         scene.add(cameraGroup)
 
         // Base camera
-        const camera = new THREE.PerspectiveCamera(35, size.width / size.height, 0.1, 100)
-        camera.position.z = 20
-        camera.position.y = 1
-        camera.position.x = -4
+        const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000)
+        camera.position.z = 3
         cameraGroup.add(camera)
         
 
@@ -49,58 +46,17 @@ const sceneSpace = () => {
         renderer.setSize(size.width, size.height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+       
+      const animate = () =>{
 
-
-
-
-            const movement = () => {
-                gsap.registerPlugin(ScrollTrigger)
-
-                const link_button1 = document.querySelector(".link_button1")
-
-                const tl = gsap.timeline({
-                    duration:3
-                })
-
-                link_button1.addEventListener("click", () => {
-                    tl.to(camera.position, {
-                        duration:1,
-                        z: 2,
-                        x:1,
-                    })
-                })
+          renderer.render(scene,camera)
+          window.requestAnimationFrame(animate)
+          renderer.autoClear = true
+      }
       
-
-            }
-
-            movement()
-
-
-            const move = {
-                x: 0,
-                y: 0
-            }
-
-            window.addEventListener("mousemove", (e) => {
-                move.x = e.x / size.width * 0.5
-                move.y = -(e.y / size.height * 0.5) 
-            })
-
-
-         
-        const animate = () =>{
-
-            renderer.render(scene,camera)
-            camera.position.x = move.x * .4
-            camera.position.y = move.y * .4
-
-            window.requestAnimationFrame(animate)
-            renderer.autoClear = true
-        }
-        
-        animate()
-        
-        renderer.render(scene,camera)
+      animate()
+      
+      renderer.render(scene,camera)
         
 }
 
