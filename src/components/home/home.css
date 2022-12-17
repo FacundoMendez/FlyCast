@@ -56,7 +56,7 @@
 
 
 .explore{
-    border: 2px solid white;
+    border: 2px ridge #ffffff;
     width: 15rem;
     height: 5rem;
     font-size: 2rem;
@@ -64,20 +64,16 @@
     font-family: Montserrat ;
     text-align: center;
     letter-spacing: -1px;
-
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     text-transform: uppercase;
-    
-    top: 60%;
+    top: 55%;
     left: 50%;
     transform: translate(-50% , -50%);
 }
-
-
 
 
 .lineNav{
