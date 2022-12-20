@@ -62,3 +62,34 @@ html{
 }
 
 
+
+.cursor {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  z-index: 99999;
+  border-radius: 100%;
+  background-color: rgba(0, 0, 0, 0.034);
+  backdrop-filter: blur(1px);
+  fill: transparent;
+  filter: invert();
+  pointer-events: none;
+  transition: transform .6s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+@keyframes load {
+  from {
+    transform: translate(0, 30px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
