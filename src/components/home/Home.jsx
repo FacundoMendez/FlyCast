@@ -55,9 +55,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <svg className="cursor" >
-        <div className="punto_curs"></div>
-      </svg>
         <div className="containerPresent">
           <div className="lineNav"></div>
             <h1 className='titlePresent'>
