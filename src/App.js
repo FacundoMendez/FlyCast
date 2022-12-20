@@ -1,6 +1,6 @@
 import './App.css';
 import Home from './components/home/Home';
-import React, {useState} from 'react'
+import React, { useState} from 'react'
 import Context from "./components/context/Context"
 import WaveAudio from './components/assets/waveAudio/WaveAudio';
 
@@ -14,10 +14,10 @@ function App() {
   }
 
 
-
   return (
     <Context.Provider value={{audioActive, setAudioActive , changeAudio }}>
       <div className="App" id='app'>
+   
         <Home/>
         <div className="audioChange" onClick={() => changeAudio()}>
           <WaveAudio/>

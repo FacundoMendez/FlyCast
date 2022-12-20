@@ -10,6 +10,8 @@
   user-select: none !important; 
 }
 
+
+
 html{
   font-size: 62.5%;
   background-color: black;
@@ -58,6 +60,5 @@ html{
   right: 2%;
   z-index: 9999999 !important;
 }
-
 
 
