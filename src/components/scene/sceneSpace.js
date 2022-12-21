@@ -41,7 +41,8 @@ const sceneSpace = () => {
         camera.position.y = 1
 
         scene.add(camera)
-        
+
+
 
         // renderer setup
         const renderer = new THREE.WebGLRenderer({
@@ -57,24 +58,14 @@ const sceneSpace = () => {
 
 
 
-/*         const controls = new OrbitControls(camera, canvas)
-        controls.enableDamping = true
-        controls.enablePan = false
-        controls.minDistance = 0
-        controls.maxDistance =1
-        controls.minPolarAngle = .8;
-        controls.maxPolarAngle = 2; */
-
-
-
         const cursor = {
             x: 0,
             y: 0
         }
     
         window.addEventListener("mousemove", ( e ) => {
-            cursor.x = e.x / size.width * 0.5
-            cursor.y = - (e.y / size.height * 0.5)
+            cursor.x =   e.x / size.width * 0.5
+            cursor.y = -(e.y / size.height * 0.5)
         } )
     
 
@@ -101,78 +92,153 @@ const sceneSpace = () => {
 
 
         /* lights */
-        
-        const pointLight = new THREE.PointLight( 0xAf76FF, 38 );
+
+
+
+            /* light top */
+        const pointLight = new THREE.PointLight( 0xAf76FF, 38 , 50 );
         pointLight.position.set(0,-.7,0)
         scene.add( pointLight );
 
-                
 
-     
+            /* light center */
+
+        const pointLight2 = new THREE.PointLight( 0xAf76FF,0);
+        pointLight2.position.set(0,-.2,-7)
+        scene.add( pointLight2 );
+
+            /* light bottom */
+
+        const pointLight3 = new THREE.PointLight( 0xAf76FF, 0 );
+        pointLight3.position.set(1,-.5,-11)
+        scene.add( pointLight3 );
+
+
+            /*light top-center  */
+        const pointLight4 = new THREE.PointLight( 0xAf76FF, 40, 50 );
+        pointLight4.position.set(1,-.7, -2)
+        scene.add( pointLight4 );
+        
+
+        /* animate */
+
+             
         let setLight2 = false
         let setLight3 = false
 
 
+    const movementScroll = () => {
 
-        /* animate */
-
-        const movementScroll = () => {
-            gsap.registerPlugin(ScrollTrigger);
-
-            const link_button1 = document.querySelector(".link_button1")
-            const link_button2 = document.querySelector(".link_button2")
-            const link_button3 = document.querySelector(".link_button3")
-
-
-            link_button1.addEventListener("click", () => {
-                gsap.to(camera.position , {
-                    z:1,
-                    duration: 1.2,
-                    ease: Elastic
-
-                })
-            })
-
-            link_button2.addEventListener("click", () => {
-                gsap.to(camera.position , {
-                    z: -3,
-                    duration: 1.6,
-                    ease: Elastic
-                })
-
-                if ( setLight2 === false){
-                    const pointLight2 = new THREE.PointLight( 0xAf76FF, 40 );
-                    pointLight2.position.set(0,-.2,-7)
-                    scene.add( pointLight2 );
-                    setLight2 = true
-                }
 
         
+        gsap.registerPlugin(ScrollTrigger);
+
+        const link_button1 = document.querySelector(".link_button1")
+        const link_button2 = document.querySelector(".link_button2")
+        const link_button3 = document.querySelector(".link_button3")
+
+
+        link_button1.addEventListener("click", () => {
+            gsap.to(camera.position , {
+                z:1,
+                duration: 1.2,
+                ease: Elastic
+
+            })
+            setLight2 = false
+            setLight3 = false
+
+            gsap.to(pointLight2 , {
+                intensity: 0  ,
+                duration: 1,
+                ease: Elastic
+            })
+            gsap.to(pointLight3 , {
+                intensity: 0  ,
+                duration: 1,
+                ease: Elastic
+            })
+        })
+
+
+
+        link_button2.addEventListener("click", () => {
+
+
+            const tl_button2 = gsap.timeline({
+                ease: Elastic,
             })
 
-            link_button3.addEventListener("click", () => {
-                gsap.to(camera.position , {
-                    z: -10,
-                    duration: 1.2,
+
+            tl_button2.to(camera.position , {
+                z: -3,
+                duration: 1.6,
+                ease: Elastic
+            })
+
+            if ( setLight2 === false){
+                tl_button2.to(pointLight2 , {
+                    intensity: 40  ,
+                    duration: 1,
                     ease: Elastic
                 })
+                setLight2 = true
+                setLight3 = false
 
-                if ( setLight3 === false){
-                    const pointLight3 = new THREE.PointLight( 0xAf76FF, 38 );
-                    pointLight3.position.set(1,-.5,-12)
-                    scene.add( pointLight3 );
-                    setLight3 = true
-                }
-        
-            })
-        
+                gsap.to(pointLight3 , {
+                    intensity: 0  ,
+                    duration: 1,
+                    ease: Elastic
+                })
+            }else{
+                tl_button2.to(pointLight2 , {
+                    intensity: 0  ,
+                    duration: 1,
+                    ease: Elastic
+                })
+            }
+
     
-      
-        }
+        })
+
+        link_button3.addEventListener("click", () => {
+
+            const tl_button3 = gsap.timeline({
+                ease: Elastic,
+            })
+
+            tl_button3.to(camera.position , {
+                z: -8,
+                duration: 1.2,
+                ease: Elastic
+            })
+
+            if ( setLight3 === false){
+                tl_button3.to(pointLight3 , {
+                    intensity: 40  ,
+                    duration: 1,
+                    ease: Elastic
+                })
+                setLight3 = true
+                setLight2 = false
+
+                gsap.to(pointLight2 , {
+                    intensity: 0  ,
+                    duration: 1,
+                    ease: Elastic
+                })
+            }else{
+                tl_button3.to(pointLight3 , {
+                    intensity: 0  ,
+                    duration: 1,
+                    ease: Elastic
+                })
+            }
     
-        movementScroll()
-
-
+        })
+    }
+    
+    movementScroll()
 
 
 
@@ -180,7 +246,7 @@ const sceneSpace = () => {
 
     const animate = () =>{
 
-      const time = clock.getElapsedTime()
+        const time = clock.getElapsedTime()
         const ghost1Angle = time 
 
         renderer.render(scene,camera)
@@ -191,9 +257,10 @@ const sceneSpace = () => {
         camera.position.y = cursor.y * .3
         camera.position.x = cursor.x * .3
 
-     /*    pointLight2.position.x = -Math.sin(ghost1Angle ) *1 */
+        pointLight2.position.x = -Math.sin(ghost1Angle ) *1
         pointLight.position.x = Math.cos(ghost1Angle ) -3
-/*         pointLight3.position.x = Math.sin(ghost1Angle )  */
+        pointLight3.position.x = Math.sin(ghost1Angle ) 
+        pointLight4.position.x = (Math.sin(ghost1Angle ) + .5) * -.4
 
     }
     
