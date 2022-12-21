@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { Elastic } from 'gsap';
 
+
 const sceneSpace = () => {
 
     const canvas = document.querySelector('.webGlScene')
@@ -46,12 +47,12 @@ const sceneSpace = () => {
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             antialias: true,
-            alpha:true
+            /* alpha:true */
         });
         
         renderer.setSize(size.width, size.height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-       renderer.physicallyCorrectLights = true;
+        renderer.physicallyCorrectLights = true;
  /*       renderer.outputEncoding = THREE.sRGBEncoding */
 
 
@@ -106,28 +107,17 @@ const sceneSpace = () => {
         scene.add( pointLight );
 
                 
-        const pointLight2 = new THREE.PointLight( 0xAf76FF, 50 );
-        pointLight2.position.set(0,-.1,-7)
-        scene.add( pointLight2 );
+
+     
+        let setLight2 = false
+        let setLight3 = false
+
 
 
         /* animate */
 
-
- 
         const movementScroll = () => {
             gsap.registerPlugin(ScrollTrigger);
-    
- /*            const tl = gsap.timeline({
-                ease: Elastic,
-                scrollTrigger:{
-                    trigger:".main",
-                    pin:true,
-                    scrub:2,
-                    start: "top top",
-                    end: "+=6000"
-                }
-            }) */
 
             const link_button1 = document.querySelector(".link_button1")
             const link_button2 = document.querySelector(".link_button2")
@@ -137,23 +127,43 @@ const sceneSpace = () => {
             link_button1.addEventListener("click", () => {
                 gsap.to(camera.position , {
                     z:1,
-                    duration: 2,
+                    duration: 1.2,
+                    ease: Elastic
+
                 })
             })
 
             link_button2.addEventListener("click", () => {
                 gsap.to(camera.position , {
                     z: -3,
-                    duration: 2,
+                    duration: 1.6,
+                    ease: Elastic
                 })
-          
+
+                if ( setLight2 === false){
+                    const pointLight2 = new THREE.PointLight( 0xAf76FF, 40 );
+                    pointLight2.position.set(0,-.2,-7)
+                    scene.add( pointLight2 );
+                    setLight2 = true
+                }
+
+        
             })
 
             link_button3.addEventListener("click", () => {
                 gsap.to(camera.position , {
-                    z: -7,
-                    duration: 2,
+                    z: -10,
+                    duration: 1.2,
+                    ease: Elastic
                 })
+
+                if ( setLight3 === false){
+                    const pointLight3 = new THREE.PointLight( 0xAf76FF, 38 );
+                    pointLight3.position.set(1,-.5,-12)
+                    scene.add( pointLight3 );
+                    setLight3 = true
+                }
+        
             })
         
     
@@ -181,8 +191,10 @@ const sceneSpace = () => {
         camera.position.y = cursor.y * .3
         camera.position.x = cursor.x * .3
 
-        pointLight2.position.x = -Math.sin(ghost1Angle ) *1
+     /*    pointLight2.position.x = -Math.sin(ghost1Angle ) *1 */
         pointLight.position.x = Math.cos(ghost1Angle ) -3
+/*         pointLight3.position.x = Math.sin(ghost1Angle )  */
+
     }
     
     animate()
