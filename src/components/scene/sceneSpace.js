@@ -1,8 +1,11 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+/* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; */
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import Mountains from "./src/Mountains.glb"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import { Elastic } from 'gsap';
 
 const sceneSpace = () => {
 
@@ -29,13 +32,14 @@ const sceneSpace = () => {
         })
 
 
-        const cameraGroup = new THREE.Group()
-        scene.add(cameraGroup)
+
 
         // Base camera
         const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000)
-        camera.position.z = 3
-        cameraGroup.add(camera)
+        camera.position.z = 1
+        camera.position.y = 1
+
+        scene.add(camera)
         
 
         // renderer setup
@@ -50,13 +54,28 @@ const sceneSpace = () => {
        renderer.physicallyCorrectLights = true;
  /*       renderer.outputEncoding = THREE.sRGBEncoding */
 
-        const controls = new OrbitControls(camera, canvas)
+
+
+/*         const controls = new OrbitControls(camera, canvas)
         controls.enableDamping = true
         controls.enablePan = false
         controls.minDistance = 0
         controls.maxDistance =1
         controls.minPolarAngle = .8;
-        controls.maxPolarAngle = 2;
+        controls.maxPolarAngle = 2; */
+
+
+
+        const cursor = {
+            x: 0,
+            y: 0
+        }
+    
+        window.addEventListener("mousemove", ( e ) => {
+            cursor.x = e.x / size.width * 0.5
+            cursor.y = - (e.y / size.height * 0.5)
+        } )
+    
 
 
 
@@ -79,32 +98,96 @@ const sceneSpace = () => {
             }
         )
 
+
+        /* lights */
         
-        const pointLight = new THREE.PointLight( 0xC776FF, 35 );
-        pointLight.position.set(0,0,0)
+        const pointLight = new THREE.PointLight( 0xAf76FF, 38 );
+        pointLight.position.set(0,-.7,0)
         scene.add( pointLight );
 
-
                 
-        const pointLight2 = new THREE.PointLight( 0xC776FF, 35 );
-        pointLight2.position.set(0,0,-7)
+        const pointLight2 = new THREE.PointLight( 0xAf76FF, 50 );
+        pointLight2.position.set(0,-.1,-7)
         scene.add( pointLight2 );
 
-     
+
+        /* animate */
 
 
-       
-      const animate = () =>{
+ 
+        const movementScroll = () => {
+            gsap.registerPlugin(ScrollTrigger);
+    
+ /*            const tl = gsap.timeline({
+                ease: Elastic,
+                scrollTrigger:{
+                    trigger:".main",
+                    pin:true,
+                    scrub:2,
+                    start: "top top",
+                    end: "+=6000"
+                }
+            }) */
 
-          renderer.render(scene,camera)
-          window.requestAnimationFrame(animate)
-          renderer.autoClear = true
-          controls.update()
-      }
+            const link_button1 = document.querySelector(".link_button1")
+            const link_button2 = document.querySelector(".link_button2")
+            const link_button3 = document.querySelector(".link_button3")
+
+
+            link_button1.addEventListener("click", () => {
+                gsap.to(camera.position , {
+                    z:1,
+                    duration: 2,
+                })
+            })
+
+            link_button2.addEventListener("click", () => {
+                gsap.to(camera.position , {
+                    z: -3,
+                    duration: 2,
+                })
+          
+            })
+
+            link_button3.addEventListener("click", () => {
+                gsap.to(camera.position , {
+                    z: -7,
+                    duration: 2,
+                })
+            })
+        
+    
       
-      animate()
-      
-      renderer.render(scene,camera)
+        }
+    
+        movementScroll()
+
+
+
+
+
+    const clock = new THREE.Clock()
+
+    const animate = () =>{
+
+      const time = clock.getElapsedTime()
+        const ghost1Angle = time 
+
+        renderer.render(scene,camera)
+        window.requestAnimationFrame(animate)
+        renderer.autoClear = true
+        /* controls.update() */
+
+        camera.position.y = cursor.y * .3
+        camera.position.x = cursor.x * .3
+
+        pointLight2.position.x = -Math.sin(ghost1Angle ) *1
+        pointLight.position.x = Math.cos(ghost1Angle ) -3
+    }
+    
+    animate()
+    
+    renderer.render(scene,camera)
         
 }
 
