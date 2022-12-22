@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 /* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; */
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import Mountains from "./src/Mountains.glb"
+import Mountains from "./src/Mountains3.glb"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -85,7 +85,7 @@ const sceneSpace = () => {
             {
                 sceneMountains= gltf.scene
                 scene.add(sceneMountains)
-                sceneMountains.position.set(0,-1,0)
+                sceneMountains.position.set(0,-.95,-5)
                 sceneMountains.scale.set(.3,.3,.3)
             }
         )
@@ -96,16 +96,21 @@ const sceneSpace = () => {
 
 
             /* light top */
-        const pointLight = new THREE.PointLight( 0xAf76FF, 38 , 50 );
+        const pointLight = new THREE.PointLight( 0xAf76FF, 48, 4 );
         pointLight.position.set(0,-.7,0)
         scene.add( pointLight );
 
 
             /* light center */
 
-        const pointLight2 = new THREE.PointLight( 0xAf76FF,0);
-        pointLight2.position.set(0,-.2,-7)
+        const pointLight2 = new THREE.PointLight( 0xAf76FF,0 ,3);
+        pointLight2.position.set(0,1,-4.9)
         scene.add( pointLight2 );
+
+        const pointLight6 = new THREE.PointLight( 0xAf76FF,0 ,2);
+        pointLight6.position.set(0,-.8,-6)
+        scene.add( pointLight6 );
+
 
             /* light bottom */
 
@@ -115,7 +120,7 @@ const sceneSpace = () => {
 
 
             /*light top-center  */
-        const pointLight4 = new THREE.PointLight( 0xAf76FF, 40, 50 );
+        const pointLight4 = new THREE.PointLight( 0xAf76FF, 40, 3);
         pointLight4.position.set(1,-.7, -2)
         scene.add( pointLight4 );
         
@@ -158,6 +163,12 @@ const sceneSpace = () => {
                 duration: 1,
                 ease: Elastic
             })
+
+            gsap.to(pointLight6 , {
+                intensity: 0  ,
+                duration: 1,
+                ease: Elastic
+            })
         })
 
 
@@ -171,17 +182,23 @@ const sceneSpace = () => {
 
 
             tl_button2.to(camera.position , {
-                z: -3,
+                z: -4.1,
                 duration: 1.6,
                 ease: Elastic
             })
 
             if ( setLight2 === false){
-                tl_button2.to(pointLight2 , {
+                tl_button2.to(pointLight6 , {
                     intensity: 40  ,
-                    duration: 1,
+                    duration: .6,
                     ease: Elastic
-                })
+                }).add(tl_button2.to(pointLight2 , {
+                    intensity: 40  ,
+                    duration: .6,
+                    ease: Elastic
+                }), "-=0.7")
+
+        
                 setLight2 = true
                 setLight3 = false
 
@@ -190,6 +207,8 @@ const sceneSpace = () => {
                     duration: 1,
                     ease: Elastic
                 })
+
+     
             }else{
                 tl_button2.to(pointLight2 , {
                     intensity: 0  ,
@@ -223,6 +242,11 @@ const sceneSpace = () => {
                 setLight2 = false
 
                 gsap.to(pointLight2 , {
+                    intensity: 0  ,
+                    duration: 1,
+                    ease: Elastic
+                })
+                gsap.to(pointLight6 , {
                     intensity: 0  ,
                     duration: 1,
                     ease: Elastic
@@ -261,6 +285,7 @@ const sceneSpace = () => {
         pointLight.position.x = Math.cos(ghost1Angle ) -3
         pointLight3.position.x = Math.sin(ghost1Angle ) 
         pointLight4.position.x = (Math.sin(ghost1Angle ) + .5) * -.4
+        pointLight6.position.x = (Math.cos(ghost1Angle ) ) * -.2
 
     }
     
