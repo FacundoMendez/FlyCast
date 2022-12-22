@@ -12,124 +12,129 @@ const sceneSpace = () => {
 
     const canvas = document.querySelector('.webGlScene')
     
-        // scene setup
-        const scene = new THREE.Scene();
-        
+    // scene setup
+    const scene = new THREE.Scene();
     
-        const size = {
-            width :  window.innerWidth,
-            height : window.innerHeight
-        }
-        
-        window.addEventListener ('resize', () => {
-            size.width = window.innerWidth
-            size.height = window.innerHeight
-        
-            camera.aspect = size.width / size.height
-            camera.updateProjectionMatrix()
+    
+    const size = {
+        width :  window.innerWidth,
+        height : window.innerHeight
+    }
+    
+    window.addEventListener ('resize', () => {
+        size.width = window.innerWidth
+        size.height = window.innerHeight
+    
+        camera.aspect = size.width / size.height
+        camera.updateProjectionMatrix()
 
-            renderer.setSize(size.width, size.height)
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-        })
-
-
-
-
-        // Base camera
-        const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000)
-        camera.position.z = 1
-        camera.position.y = 1
-
-        scene.add(camera)
-
-
-
-        // renderer setup
-        const renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            antialias: true,
-            /* alpha:true */
-        });
-        
         renderer.setSize(size.width, size.height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-        renderer.physicallyCorrectLights = true;
+    })
+
+
+
+
+    // Base camera
+    const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000)
+    camera.position.z = 1
+    camera.position.y = 1
+
+    scene.add(camera)
+
+
+
+    // renderer setup
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        /* alpha:true */
+    });
+    
+    renderer.setSize(size.width, size.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.physicallyCorrectLights = true;
  /*       renderer.outputEncoding = THREE.sRGBEncoding */
 
 
 
-        const cursor = {
-            x: 0,
-            y: 0
+    const cursor = {
+        x: 0,
+        y: 0
+    }
+    
+    window.addEventListener("mousemove", ( e ) => {
+        cursor.x =   e.x / size.width * 0.5
+        cursor.y = -(e.y / size.height * 0.5)
+    } )
+    
+
+
+
+    /* scene gltf */
+    let sceneMountains
+
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('/draco/')
+
+    const gltfLoader = new GLTFLoader()
+    gltfLoader.setDRACOLoader(dracoLoader)
+    gltfLoader.load(
+        Mountains,
+        (gltf) =>
+        {
+            sceneMountains= gltf.scene
+            scene.add(sceneMountains)
+            sceneMountains.position.set(0,-.95,-5)
+            sceneMountains.scale.set(.3,.3,.3)
         }
-    
-        window.addEventListener("mousemove", ( e ) => {
-            cursor.x =   e.x / size.width * 0.5
-            cursor.y = -(e.y / size.height * 0.5)
-        } )
-    
+    )
+
+
+    /* lights */
 
 
 
-        /* scene gltf */
-        let sceneMountains
+        /* light top */
+    const pointLight = new THREE.PointLight( 0x9950FF, 48, 4 );
+    pointLight.position.set(0,-.58,0)
+    scene.add( pointLight );
 
-        const dracoLoader = new DRACOLoader()
-        dracoLoader.setDecoderPath('/draco/')
-
-        const gltfLoader = new GLTFLoader()
-        gltfLoader.setDRACOLoader(dracoLoader)
-        gltfLoader.load(
-            Mountains,
-            (gltf) =>
-            {
-                sceneMountains= gltf.scene
-                scene.add(sceneMountains)
-                sceneMountains.position.set(0,-.95,-5)
-                sceneMountains.scale.set(.3,.3,.3)
-            }
-        )
+        /*light top-center  */
+    const pointLight4 = new THREE.PointLight( 0xA768FF, 40, 1.8);
+    pointLight4.position.set(1,-.4, -1.8)
+    scene.add( pointLight4 );
+         
 
 
-        /* lights */
+    /* light center */
+
+            /* light center button  */
+
+    const pointLight2 = new THREE.PointLight( 0x503477,0 ,1.5);
+    pointLight2.position.set(0,.2,-4.9)
+    scene.add( pointLight2 );
+
+            /* light center top  */
+
+    const pointLight6 = new THREE.PointLight( 0xA768FF,0 ,2.3);
+    pointLight6.position.set(0,-.5,-6)
+    scene.add( pointLight6 );
 
 
 
-            /* light top */
-        const pointLight = new THREE.PointLight( 0xAf76FF, 48, 4 );
-        pointLight.position.set(0,-.58,0)
-        scene.add( pointLight );
+    /* light bottom */
+
+    const pointLight3 = new THREE.PointLight( 0xAf76FF, 0 );
+    pointLight3.position.set(0,-.2,-11)
+    scene.add( pointLight3 );
 
 
-            /* light center */
 
-        const pointLight2 = new THREE.PointLight( 0xAf76FF,0 ,3);
-        pointLight2.position.set(0,1,-4.9)
-        scene.add( pointLight2 );
-
-        const pointLight6 = new THREE.PointLight( 0xAf76FF,0 ,2);
-        pointLight6.position.set(0,-.8,-6)
-        scene.add( pointLight6 );
-
-
-            /* light bottom */
-
-        const pointLight3 = new THREE.PointLight( 0xAf76FF, 0 );
-        pointLight3.position.set(1,-.5,-11)
-        scene.add( pointLight3 );
-
-
-            /*light top-center  */
-        const pointLight4 = new THREE.PointLight( 0xAf76FF, 40, 3);
-        pointLight4.position.set(1,-.7, -2)
-        scene.add( pointLight4 );
-        
-
-        /* animate */
-
-             
-        let setLight2 = false
-        let setLight3 = false
+    /* animate */
+         
+    let setLight2 = false
+    let setLight3 = false
 
 
     const movementScroll = () => {
@@ -189,7 +194,7 @@ const sceneSpace = () => {
 
             if ( setLight2 === false){
                 tl_button2.to(pointLight6 , {
-                    intensity: 40  ,
+                    intensity: 20  ,
                     duration: .6,
                     ease: Elastic
                 }).add(tl_button2.to(pointLight2 , {
@@ -281,8 +286,9 @@ const sceneSpace = () => {
         camera.position.y = cursor.y * .3
         camera.position.x = cursor.x * .3
 
-        pointLight2.position.x = -Math.sin(ghost1Angle ) *1
         pointLight.position.x = Math.cos(ghost1Angle ) -3
+        pointLight2.position.x = -Math.sin(ghost1Angle ) *.5
+
         pointLight3.position.x = Math.sin(ghost1Angle ) 
         pointLight4.position.x = (Math.sin(ghost1Angle ) + .5) * -.4
         pointLight6.position.x = (Math.cos(ghost1Angle ) ) * -.2
