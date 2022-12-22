@@ -97,7 +97,7 @@ const sceneSpace = () => {
 
             /* light top */
         const pointLight = new THREE.PointLight( 0xAf76FF, 48, 4 );
-        pointLight.position.set(0,-.7,0)
+        pointLight.position.set(0,-.58,0)
         scene.add( pointLight );
 
 
