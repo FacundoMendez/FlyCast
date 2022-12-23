@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 /* import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; */
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import Mountains from "./src/Mountains3.glb"
+import Mountains from "./src/Mountains4.glb"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -73,7 +73,7 @@ const sceneSpace = () => {
 
     /* scene gltf */
     let sceneMountains
-
+    let mixer = null
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderPath('/draco/')
 
@@ -87,6 +87,12 @@ const sceneSpace = () => {
             scene.add(sceneMountains)
             sceneMountains.position.set(0,-.95,-5)
             sceneMountains.scale.set(.3,.3,.3)
+
+
+            mixer = new THREE.AnimationMixer(gltf.scene)
+            const action = mixer.clipAction(gltf.animations[0])
+            action.setLoop(THREE.LoopRepeat);
+            action.play()
         }
     )
 
@@ -121,6 +127,10 @@ const sceneSpace = () => {
     pointLight6.position.set(0,-.5,-6)
     scene.add( pointLight6 );
 
+
+    const pointLight5 = new THREE.PointLight( 0xA768FF,0 ,2.4);
+    pointLight5.position.set(1.5,1,-6)
+    scene.add( pointLight5 );
 
 
     /* light bottom */
@@ -174,6 +184,12 @@ const sceneSpace = () => {
                 duration: 1,
                 ease: Elastic
             })
+
+            gsap.to(pointLight5 , {
+                intensity: 0  ,
+                duration: 1,
+                ease: Elastic
+            })
         })
 
 
@@ -203,6 +219,11 @@ const sceneSpace = () => {
                     ease: Elastic
                 }), "-=0.7")
 
+                tl_button2.to(pointLight5 , {
+                    intensity: 10 ,
+                    duration: 1,
+                    ease: Elastic
+                })
         
                 setLight2 = true
                 setLight3 = false
@@ -256,6 +277,12 @@ const sceneSpace = () => {
                     duration: 1,
                     ease: Elastic
                 })
+
+                gsap.to(pointLight5, {
+                    intensity: 0  ,
+                    duration: 1,
+                    ease: Elastic
+                })
             }else{
                 tl_button3.to(pointLight3 , {
                     intensity: 0  ,
@@ -293,6 +320,10 @@ const sceneSpace = () => {
         pointLight4.position.x = (Math.sin(ghost1Angle ) + .5) * -.4
         pointLight6.position.x = (Math.cos(ghost1Angle ) ) * -.2
 
+        if(mixer)
+        {
+            mixer.update(clock.getDelta() *6)
+        }
     }
     
     animate()
