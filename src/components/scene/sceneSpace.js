@@ -1,8 +1,6 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import pajaro from "./src/vuelo.glb"
-
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 
@@ -33,12 +31,18 @@ const sceneSpace = () => {
 
 
 
+
+
+
     // Base camera
     const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000)
     camera.position.z = 1
     camera.position.y = 1
 
     scene.add(camera)
+
+
+
 
 
 
@@ -57,7 +61,6 @@ const sceneSpace = () => {
 
 
 
-    
 
     const ambientLight = new THREE.AmbientLight(0xffffff ,5)
     scene.add(ambientLight);
@@ -144,12 +147,36 @@ const sceneSpace = () => {
     }
 
     window.addEventListener("mousemove", ( e ) => {
-
+        e.preventDefault();
         cursor.x = (e.x / size.width * 2- 1) ;
         cursor.y = -(e.y / size.height * 2 -1);
+
     } )
 
+    window.addEventListener("touchmove", (event) => {
+        // Prevenir el comportamiento por defecto del evento (desplazamiento de la página)
+        event.preventDefault();
+      
+        // Obtener la posición del dedo en la pantalla
+        const touchX = event.touches[0].clientX;
+        const touchY = event.touches[0].clientY;
+      
+        // Calcular la posición normalizada del cursor
+        cursor.x = (touchX / size.width * 2 - 1);
+        cursor.y = -(touchY / size.height * 2 - 1);
+      });
+
        
+    // center position
+    const centerX = size.width / 2;
+    const centerY = size.height / 2;
+
+    // distance from cursor to center
+    const distanceX = cursor.x - centerX;
+    const distanceY = cursor.y - centerY;
+
+
+    
     
   
     // Función para actualizar la posición y rotación de la cámara
@@ -157,12 +184,12 @@ const sceneSpace = () => {
 
         // Calcular la posición por encima del aguila
         const targetPosition = PajaroVuelo.position.clone();
-        targetPosition.y += 1; // Añadir una unidad a la altura del aguila
+        targetPosition.y += 1.3; // Añadir una unidad a la altura del aguila
 
         camera.lookAt(PajaroVuelo.position)
 
         // Mover la cámara suavemente hacia la posición del aguila
-        camera.position.lerp(targetPosition, 0.05);
+        camera.position.lerp(targetPosition, 0.04);
 
     }
 
@@ -175,21 +202,27 @@ const sceneSpace = () => {
         const time =clock.getDelta();
         renderer.autoClear = true
 
+        /* vuelo del pajaro, configuracion de movimiento */
         if (PajaroVuelo !== null) {
           
-            const rotationY = (cursor.x * 1) % 180;
+            const scaleFactorX = distanceX / centerX * 0.6;
+            const scaleFactorY = distanceY / centerY * 0.5;
 
-            // Calcula el ángulo de rotación en el eje X en función de la posición del cursor
+            // Calcula el ángulo de rotación en el eje Y en función de la posición del cursor
             // El límite de rotación es de 720 grados (2 vueltas completas)
-            const rotationX = (cursor.y * 1) % 180;
+            const rotationY = (cursor.x * 5) % 180;
             
             // Rotación del modelo en el eje Y en función del ángulo calculado
-            PajaroVuelo.rotation.y = -rotationY * 4;
+            PajaroVuelo.rotation.y = rotationY * scaleFactorX;
+            
+            // Calcula el ángulo de rotación en el eje X en función de la posición del cursor
+            // El límite de rotación es de 720 grados (2 vueltas completas)
+            const rotationX = -(cursor.y * 1) % 180;
             
             // Rotación del modelo en el eje X en función del ángulo calculado
-            PajaroVuelo.rotation.x = rotationX;
+            PajaroVuelo.rotation.x = rotationX * scaleFactorY;
 
-            PajaroVuelo.translateZ(-0.1);
+            PajaroVuelo.translateZ(-0.08);
 
             updateCamera()
         }
@@ -199,7 +232,6 @@ const sceneSpace = () => {
         {
             mixer.update(time)
         }
-  
         
         renderer.render(scene,camera)
         window.requestAnimationFrame(animate)
