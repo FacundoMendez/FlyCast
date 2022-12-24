@@ -141,6 +141,7 @@ const sceneSpace = () => {
 
 
  
+   
     const cursor = {
         x: 0,
         y: 0
@@ -150,23 +151,43 @@ const sceneSpace = () => {
         e.preventDefault();
         cursor.x = (e.x / size.width * 2- 1) ;
         cursor.y = -(e.y / size.height * 2 -1);
-
+     
     } )
 
-    window.addEventListener("touchmove", (event) => {
-        // Prevenir el comportamiento por defecto del evento (desplazamiento de la página)
-        event.preventDefault();
-      
-        // Obtener la posición del dedo en la pantalla
-        const touchX = event.touches[0].clientX;
-        const touchY = event.touches[0].clientY;
-      
-        // Calcular la posición normalizada del cursor
-        cursor.x = (touchX / size.width * 2 - 1);
-        cursor.y = -(touchY / size.height * 2 - 1);
-      });
 
-       
+   /* movile */
+   window.addEventListener("touchmove", (event) => {
+    // Prevenir el comportamiento por defecto del evento (desplazamiento de la página)
+    event.preventDefault();
+  
+    // Obtener la posición del dedo en la pantalla
+    const touchX = event.touches[0].clientX;
+    const touchY = event.touches[0].clientY;
+  
+    // Calcular la posición normalizada del cursor
+    cursor.x = (touchX / size.width * 2 - 1);
+    cursor.y = -(touchY / size.height * 2 - 1);
+
+  });
+
+
+
+
+    // Factor de escala para la velocidad
+    let speedScale = 1;
+
+    window.addEventListener("keydown", (event) => {
+        if (event.keyCode === 16) {
+            speedScale = 2.5;
+        }
+      });
+    window.addEventListener("keyup", (event) => {
+      if (event.keyCode === 16) {
+          speedScale = 1;
+      }
+    });
+
+
     // center position
     const centerX = size.width / 2;
     const centerY = size.height / 2;
@@ -176,8 +197,7 @@ const sceneSpace = () => {
     const distanceY = cursor.y - centerY;
 
 
-    
-    
+
   
     // Función para actualizar la posición y rotación de la cámara
     const updateCamera = () => {
@@ -195,6 +215,10 @@ const sceneSpace = () => {
 
 
 
+    // Límite inferior del área de vuelo (en unidades del eje Y)
+    const minHeight = 1;
+
+
     const clock = new THREE.Clock()
 
     const animate = () =>{
@@ -202,29 +226,44 @@ const sceneSpace = () => {
         const time =clock.getDelta();
         renderer.autoClear = true
 
+
+
         /* vuelo del pajaro, configuracion de movimiento */
         if (PajaroVuelo !== null) {
           
             const scaleFactorX = distanceX / centerX * 0.6;
             const scaleFactorY = distanceY / centerY * 0.5;
+            
 
             // Calcula el ángulo de rotación en el eje Y en función de la posición del cursor
             // El límite de rotación es de 720 grados (2 vueltas completas)
             const rotationY = (cursor.x * 5) % 180;
-            
-            // Rotación del modelo en el eje Y en función del ángulo calculado
-            PajaroVuelo.rotation.y = rotationY * scaleFactorX;
-            
+
             // Calcula el ángulo de rotación en el eje X en función de la posición del cursor
             // El límite de rotación es de 720 grados (2 vueltas completas)
             const rotationX = -(cursor.y * 1) % 180;
             
-            // Rotación del modelo en el eje X en función del ángulo calculado
-            PajaroVuelo.rotation.x = rotationX * scaleFactorY;
 
-            PajaroVuelo.translateZ(-0.08);
+
+            // Rotación del modelo en el eje Y en función del ángulo calculado
+            PajaroVuelo.rotation.y += (rotationY * scaleFactorX - PajaroVuelo.rotation.y) * 1;
+            
+            // Suavizar la rotación en el eje X con una tasa de suavizado de 0.1
+            PajaroVuelo.rotation.x += (rotationX * scaleFactorY - PajaroVuelo.rotation.x) * 1;
+
+            PajaroVuelo.translateZ(-0.08 * speedScale);
 
             updateCamera()
+
+            const currentPosition = PajaroVuelo.position.clone();
+            // Si la posición actual es menor que el límite, evitar que el pájaro baje más
+            if (currentPosition.y < minHeight) {
+                currentPosition.y = minHeight;
+            }
+
+            // Establecer la nueva posición del pájaro
+            PajaroVuelo.position.copy(currentPosition);
+
         }
 
 
