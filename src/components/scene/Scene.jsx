@@ -58,7 +58,7 @@ const Scene = () => {
   
   useEffect(() => {
     sceneSpace()
-    active_hover()
+ /*    active_hover() */
   },[])
 
 
@@ -77,10 +77,10 @@ const Scene = () => {
       
       <canvas className="webGlScene"></canvas>
       <div className="container_links">
-          <div className="bar_link_button bar_link_button1"></div>
+      {/*     <div className="bar_link_button bar_link_button1"></div>
           <div className='link_button link_button1 link_button1_active' onMouseOver={playAudio} > Sobre Mi</div>
           <div className='link_button link_button2' onMouseOver={playAudio} > Trabajos</div>
-          <div className='link_button link_button3' onMouseOver={playAudio} > Contacto</div>
+          <div className='link_button link_button3' onMouseOver={playAudio} > Contacto</div> */}
       </div>
 
 

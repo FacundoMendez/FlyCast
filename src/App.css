@@ -8,6 +8,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none !important; 
+
 }
 
 html{
@@ -15,6 +16,14 @@ html{
   background-color: black;
 }
 
+
+body{
+  cursor: url("./components/scene/src/cursor1.png"),auto !important ;
+}
+
+a:hover , button:hover , .explore, .audioChange , .link_button , .box_cabecera{
+  cursor: url("./components/scene/src/pointer1.png"),pointer !important ;
+}
 
 @font-face {
   font-family: 'Montserrat';
