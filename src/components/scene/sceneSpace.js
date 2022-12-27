@@ -2,11 +2,10 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import pajaro from "./src/vuelo.glb"
 import terrain from "./mapNieve2.glb"
-
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 
-const sceneSpace = () => {
+const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
 
     const canvas = document.querySelector('.webGlScene')
     
@@ -33,10 +32,6 @@ const sceneSpace = () => {
 
 
     let camera;
-    let renderer;
-
-
-
 
     function setCamera(){
 
@@ -50,6 +45,7 @@ const sceneSpace = () => {
 
 
 
+    let renderer;
 
     function setRender(){
         renderer = new THREE.WebGLRenderer({
@@ -69,13 +65,13 @@ const sceneSpace = () => {
 
 
 
-  function setLights(){
-    const ambientLight = new THREE.AmbientLight(0xffffff ,5)
-    scene.add(ambientLight);
-  }
+    function setLights(){
+        const ambientLight = new THREE.AmbientLight(0xffffff ,5)
+        scene.add(ambientLight);
+    }
 
 
-  setLights()
+    setLights()
 
 
 
@@ -139,37 +135,13 @@ const sceneSpace = () => {
                 const action = mixer.clipAction(modelVuelo.animations[1])
                 action.setEffectiveTimeScale(.5);
                 action.play()
+                setPreloadModel(true)
             }
         )
     
     }
 
-    let terrainForest = null
-
-    function modelTerrain(){
-        const dracoLoader = new DRACOLoader()
-        dracoLoader.setDecoderPath('/draco/')
-    
-        const gltfLoader = new GLTFLoader()
-        gltfLoader.setDRACOLoader(dracoLoader)
-    
-        gltfLoader.load(
-            terrain,
-            (modelTerrainGltf) =>
-            {
-                terrainForest= modelTerrainGltf.scene
-                scene.add(terrainForest)
-                terrainForest.position.set(0, -5.4, -.5)
-                terrainForest.scale.set(1.7,1.7,1.7)
-    
-    
-            }
-        )
-    
-    }
-
-    modelTerrain()
-
+  
 
 
     function setCursorMovement(){
@@ -207,7 +179,7 @@ const sceneSpace = () => {
 
         window.addEventListener("keydown", (event) => {
             if (event.keyCode === 16) {
-                speedScale = 2.5;
+                speedScale = 2;
             }
         });
 
@@ -255,7 +227,7 @@ const sceneSpace = () => {
         
 
         // Rotación del modelo en el eje Y en función del ángulo calculado
-        PajaroVuelo.rotation.y += ((rotationY *4.3) * scaleFactorX - PajaroVuelo.rotation.y) * 0.023;
+        PajaroVuelo.rotation.y += ((rotationY *4.3) * scaleFactorX - PajaroVuelo.rotation.y) * 0.015;
         
         // Suavizar la rotación en el eje X con una tasa de suavizado de 0.1
         PajaroVuelo.rotation.x += (rotationX * scaleFactorY - PajaroVuelo.rotation.x) * 0.7;
@@ -265,7 +237,7 @@ const sceneSpace = () => {
         PajaroVuelo.translateZ(-0.11 * speedScale);
 
 
-        // Si la posición actual es menor que el límite, evitar que el pájaro baje más
+        // Si la posición actual es menor que el límite, evitar que el pájaro baje más o evita que el pajaro suba mas
         const currentPosition = PajaroVuelo.position.clone();
 
         if (currentPosition.y < minHeight) {
@@ -289,6 +261,41 @@ const sceneSpace = () => {
     modelFly()
     setCursorMovement()
     setKeysEvents()
+
+
+
+ /* ------------------------------------------------------TERRAIN-------------------------------------------------------------- */
+
+
+
+ let terrainForest = null
+
+ function modelTerrain(){
+     const dracoLoader = new DRACOLoader()
+     dracoLoader.setDecoderPath('/draco/')
+ 
+     const gltfLoader = new GLTFLoader()
+     gltfLoader.setDRACOLoader(dracoLoader)
+ 
+     gltfLoader.load(
+         terrain,
+         (modelTerrainGltf) =>
+         {
+             terrainForest= modelTerrainGltf.scene
+             scene.add(terrainForest)
+             terrainForest.position.set(0, -5.4, -.5)
+             terrainForest.scale.set(1.7,1.7,1.7)
+             setPreloadTerrain(true)
+         }
+     )
+ 
+ }
+
+ modelTerrain()
+
+
+
+
 
  /* ------------------------------------------------------------------------------------------------------------------- */
 

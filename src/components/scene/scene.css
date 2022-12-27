@@ -6,6 +6,7 @@
     top: 0vh;
     position: fixed;
     left: 0;
+    filter: contrast(125%);
     z-index: -1;
 }
 

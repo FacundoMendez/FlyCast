@@ -1,0 +1,35 @@
+
+.containerSceneHome{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+.buttonActiveScene{
+    font-size: 1.8rem;
+    padding: 1rem;
+    color: white;
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+}
+
+.cargando{
+    position: absolute;
+    font-weight: bold;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    font-family: 'Montserrat';
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+}

@@ -57,7 +57,7 @@ const Scene = () => {
 
   
   useEffect(() => {
-    sceneSpace()
+   /*  sceneSpace() */
  /*    active_hover() */
   },[])
 
@@ -75,7 +75,7 @@ const Scene = () => {
         <span>Developer.</span> 
       </div>
       
-      <canvas className="webGlScene"></canvas>
+  {/*     <canvas className="webGlScene"></canvas> */}
       <div className="container_links">
       {/*     <div className="bar_link_button bar_link_button1"></div>
           <div className='link_button link_button1 link_button1_active' onMouseOver={playAudio} > Sobre Mi</div>
