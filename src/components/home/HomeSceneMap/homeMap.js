@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import map from "./assets/map.jpg"
+import map from "./assets/map10.jpg"
 
 const homeMap = () => {
     const mapCanvas = document.querySelector(".homeSceneCanvas")
@@ -29,7 +29,7 @@ const homeMap = () => {
 
 
     const camera = new THREE.PerspectiveCamera(75 , size.width/size.height , 0.1 , 1000)
-    camera.position.z = 10
+    camera.position.z = 12
 
     scene.add(camera)
 
@@ -47,13 +47,12 @@ const homeMap = () => {
     const mapp = textureLoader.load(map)
 
 
-    const plane = new THREE.PlaneBufferGeometry(35,35)
+    const plane = new THREE.PlaneBufferGeometry(40,24)
     const materialPlane = new THREE.MeshPhysicalMaterial({
         map:mapp , 
     })
     const meshPlane = new THREE.Mesh(plane , materialPlane)
 
-    meshPlane.position.set(0,0,0)
     scene.add(meshPlane)
 
 
@@ -67,8 +66,8 @@ const homeMap = () => {
     controls.enablePan = false
     // Desactiva la rotación y el desplazamiento en el eje Z
     controls.enableRotate = false;
-    controls.minDistance = 5;
-    controls.maxDistance = 10;
+    controls.minDistance = 8;
+    controls.maxDistance = 12;
 
 
 
@@ -88,6 +87,15 @@ const homeMap = () => {
         cursor.y = (e.y / size.height * 3 );
     });
 
+    document.addEventListener('touchmove', (e) => {
+        // Obtiene la posición del primer dedo en la pantalla
+        const touch = e.touches[0];
+      
+        // Actualiza la posición del cursor utilizando la posición del dedo
+        cursor.x = -(touch.clientX / size.width * 3);
+        cursor.y = (touch.clientY / size.height * 3);
+      });
+
 
     // Crea una variable para almacenar la posición actual del plano
     let currentPosition = {
@@ -98,14 +106,14 @@ const homeMap = () => {
 
     // Mueve la cámara en el eje X y Y utilizando el movimiento del mouse
     function updateCamera() {
-        const velocidadDeMov = 0.2;
+        const velocidadDeMov = 0.05;
 
         currentPosition.x += (cursor.x - currentPosition.x) * velocidadDeMov;
         currentPosition.y += (cursor.y - currentPosition.y) * velocidadDeMov;
 
           // Limita la posición del plano entre   en el eje X y en el eje Y
-        currentPosition.x = Math.max(-1.5, Math.min(currentPosition.x, 1.5));
-        currentPosition.y = Math.max(-10, Math.min(currentPosition.y, 10));
+        currentPosition.x = Math.max(-1, Math.min(currentPosition.x,1));
+        currentPosition.y = Math.max(-6.5, Math.min(currentPosition.y, 2.5));
             
         // Aplica la posición interpolada al plano
         meshPlane.position.x = currentPosition.x;
