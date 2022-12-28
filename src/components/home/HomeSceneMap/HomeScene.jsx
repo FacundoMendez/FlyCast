@@ -1,46 +1,35 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import Preload from '../../preload/Preload'
-import SceneGetMap from '../../scene/SceneGetMap'
+import React, { useRef, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 import homeMap from './homeMap'
 import "./homeMap.css"
 
 const HomeScene = () => {
 
-  const [activeScene , setActiveScene] = useState(false)
-
-  const handlerScene = () => {
-    setActiveScene(!activeScene)
-  }
+  const sceneRef = useRef(null);
   
   useEffect(() => {
     homeMap()
+    
+    const currentScene = sceneRef.current;
+
+    return () => {
+
+      // Desactivar o eliminar la escena cuando el componente se desmonte
+      if (currentScene) {
+        currentScene.remove();
+      }
+    }
+
   },[])
 
   return (
     <div className="containerSceneHome">
       
+      <canvas className='homeSceneCanvas'></canvas>
       
-      {
-        activeScene ? 
-          <div className="homeBox">
-            <div className="buttonScene"  onClick={() => handlerScene()}>
-              desactive Scene
-            </div>
-            <SceneGetMap /> 
-
-          </div>
-        : 
-          <div className="homeBox">
-              <div className="buttonActiveScene"  onClick={() => handlerScene()}>
-                active Scene
-              </div>
-            <canvas className='homeSceneCanvas'></canvas>
-
-          </div>
-
-      }
-
+      <NavLink to="/world"> 
+        <div className="buttonScene"> active Scene  </div>
+      </NavLink>
 
     </div> 
   )
