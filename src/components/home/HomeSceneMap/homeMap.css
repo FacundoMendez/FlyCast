@@ -1,10 +1,44 @@
-
 .containerSceneHome{
     position: relative;
     width: 100%;
     min-height: 100vh;
+    z-index: 9999;
+    transform: all 2s ease;
+    overflow: hidden;
 }
 
+.homeBox{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    visibility: visible;
+    opacity: 1;
+    transform: all 2s ease;
+    background-image: url("./assets/rocks.png");
+    background-size: cover;
+}
+
+.homeSceneCanvas{
+    position: relative;
+    z-index: 999999;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: rgb(0, 0, 0);
+}
+
+.smoke{
+    width: 100%;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    opacity: 0.8;
+    z-index: 99999;
+}
+
+
+
+/* button active scene */
 
 .buttonActiveScene{
     font-size: 1.8rem;
@@ -19,17 +53,70 @@
     border: 1px solid white;
     border-radius: 5px;
     font-family: 'Montserrat';
+    position: absolute;
+    border: 2px solid rgb(255, 255, 255);
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.568);
+    z-index: 9999999;
+}
+  
+.buttonScene{
+    font-size: 1.8rem;
+    padding: 1rem;
+    color: white;
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    position: absolute;
+    border: 2px solid rgb(255, 255, 255);
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.568);
+    z-index: 9999;
 }
 
+/* loading */
+
 .cargando{
-    position: absolute;
+    position: fixed;
+    top: 0;
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+    opacity: 1;
+    transition: all 2s ease-in-out ;
+}
+
+.cargandoActive{
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    opacity: 0;
+    width: 100%;
+    height: 100vh;
+    visibility: hidden;
+    transition: all 2s ease-in-out;
+}
+
+.load{
     font-weight: bold;
     font-size: 1.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: white;
     font-family: 'Montserrat';
-    top: 50%;
-    left: 50%;
-    transform: translate(-50% , -50%);
+}
+
+.loadActive{
+    display: none;
 }

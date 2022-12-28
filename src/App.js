@@ -1,31 +1,24 @@
 import './App.css';
-import Home from './components/home/Home';
-import React, {useState} from 'react'
+import React from 'react'
 import Context from "./components/context/Context"
-import WaveAudio from './components/assets/waveAudio/WaveAudio';
 import HomeScene from './components/home/HomeSceneMap/HomeScene';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Preload from './components/preload/Preload';
 
 
 function App() {
 
-  const [audioActive, setAudioActive] = useState(true)
-
-  const changeAudio = () => {
-    setAudioActive(!audioActive)
-  }
-
 
   return (
-    <Context.Provider value={{audioActive, setAudioActive , changeAudio }}>
+    <BrowserRouter>
       <div className="App" id='app'>
-   
-        {/* <Home/> */}
-        <HomeScene/>
-        <div className="audioChange" onClick={() => changeAudio()}>
-          <WaveAudio/>
-        </div>
+        <Routes>
+          <Route exact path='/home' element = {<HomeScene/>} />
+          <Route exact path='/' element = {<Preload/>} />
+        </Routes>
+
       </div>
-    </Context.Provider>
+    </BrowserRouter>
   );
 }
 

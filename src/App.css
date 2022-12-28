@@ -21,7 +21,7 @@ body{
   cursor: url("./components/scene/src/cursor1.png"),auto !important ;
 }
 
-a:hover , button:hover , .explore, .audioChange , .link_button , .box_cabecera{
+a:hover , button:hover , .buttonLinkHome , .box_cabecera, .buttonScene , .buttonActiveScene{
   cursor: url("./components/scene/src/pointer1.png"),pointer !important ;
 }
 
@@ -55,18 +55,6 @@ a:hover , button:hover , .explore, .audioChange , .link_button , .box_cabecera{
   border-radius: 15px;
 }
 
-
-.audioChange{
-  color: white;
-  cursor: pointer;
-  padding: 2rem;
-  width: 9rem;
-  font-size: 2rem;
-  position: absolute;
-  bottom: 1%;
-  right: 2%;
-  z-index: 9999999 !important;
-}
 
 
 

@@ -1,0 +1,83 @@
+.preload{
+    position: relative;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 9999999 !important;
+    background-image: url("../home/HomeSceneMap/assets/rocks.png");
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.smokePreload{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    opacity: .8;
+    position: absolute;
+}
+
+
+.titlePreload {
+    background: linear-gradient(to bottom, #ad9d79 22%,  #cfc09f 26%, #cfc09f 27%, #ffe699 40%, #3a2c0f 78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    position: relative;
+    text-transform: uppercase;
+    font-size: 10rem;
+    margin: 0;
+    font-weight: 400;
+
+  }
+  
+.titlePreload:after {
+    background: none;
+    content: attr(data-heading);
+    left: 0;
+    top: 0;
+    z-index: -1;
+    position: absolute;
+    text-shadow: -1px 0 1px #c6bb9f, 0 1px 1px #c6bb9f, 5px 5px 10px rgba(0, 0, 0, 0.4), -5px -5px 10px rgba(0, 0, 0, 0.4);
+}
+
+
+.buttonLinkHome{
+    position: relative;
+    width: 38rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: contrast(114%);
+}
+
+.buttonLinkHome h2{
+    position: absolute;
+    font-size: 2.3rem;
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    color: #ad9d79;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.473));
+
+}
+
+.buttonPreload{
+    filter: drop-shadow( 0 0 15px rgba(255, 221, 187, 0.685)) contrast(110%);
+    width: 100%;
+    opacity: .5;
+    transition: all .3s ease;
+}
+
+.buttonPreload:hover{
+    filter: drop-shadow( 0 0 20px rgba(255, 221, 187, 0.685)) contrast(110%);
+    width: 100%;
+    opacity: 1;
+    transition: all .3s ease;
+}
