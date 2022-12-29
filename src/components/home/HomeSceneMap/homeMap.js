@@ -103,8 +103,8 @@ const homeMap = () => {
         y: 0
     };
 
-const planeWidth = 46;
-const planeHeight = 25;
+    const planeWidth = 46;
+    const planeHeight = 25;
 
     const minX = -planeWidth / 2;
     const maxX = planeWidth / 2;

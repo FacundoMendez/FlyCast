@@ -12,14 +12,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App" id='app'>
         <Routes>
           <Route exact path='/home' element = {<HomeScene/>} />
           <Route exact path='/world' element = {<SceneGetMap/>} />
           <Route exact path='/' element = {<Preload/>} />
         </Routes>
-
-      </div>
     </BrowserRouter>
   );
 }

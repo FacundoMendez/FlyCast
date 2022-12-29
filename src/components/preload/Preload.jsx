@@ -9,12 +9,12 @@ const Preload = () => {
     <div className="preload">
         <video className='smokePreload' src={videoSmoke} autoPlay loop muted type="video/mp4"></video>
        
-        <h1 className='titlePreload' data-heading="FlyCast" >FlyCast</h1>
+        <h1 className='titlePreload' data-heading="Fly High" >Fly High</h1>
         
         <NavLink to="/home">
           <div className="buttonLinkHome">
             <img className='buttonPreload' src={buttonPreload} alt="buttonPreload" />
-            <h2>Enter</h2>
+            <h2 className='enter'>Enter</h2>
           </div>
         </NavLink>
     </div>
