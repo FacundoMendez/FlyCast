@@ -47,7 +47,7 @@ const homeMap = () => {
     const mapp = textureLoader.load(map)
 
 
-    const plane = new THREE.PlaneBufferGeometry(40,24)
+    const plane = new THREE.PlaneBufferGeometry(46,25)
     const materialPlane = new THREE.MeshPhysicalMaterial({
         map:mapp , 
     })
@@ -102,7 +102,15 @@ const homeMap = () => {
         x: 0,
         y: 0
     };
-    
+
+const planeWidth = 46;
+const planeHeight = 25;
+
+    const minX = -planeWidth / 2;
+    const maxX = planeWidth / 2;
+    const minY = -planeHeight / 2;
+    const maxY = planeHeight / 2;
+        
 
     // Mueve la cámara en el eje X y Y utilizando el movimiento del mouse
     function updateCamera() {
@@ -112,8 +120,8 @@ const homeMap = () => {
         currentPosition.y += (cursor.y - currentPosition.y) * velocidadDeMov;
 
           // Limita la posición del plano entre   en el eje X y en el eje Y
-        currentPosition.x = Math.max(-1, Math.min(currentPosition.x,1));
-        currentPosition.y = Math.max(-6.5, Math.min(currentPosition.y, 2.5));
+        currentPosition.x = Math.max(minX, Math.min(currentPosition.x, maxX));
+        currentPosition.y = Math.max(minY, Math.min(currentPosition.y, maxY));
             
         // Aplica la posición interpolada al plano
         meshPlane.position.x = currentPosition.x;
