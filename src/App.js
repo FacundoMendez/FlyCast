@@ -1,6 +1,5 @@
 import './App.css';
 import React from 'react'
-import Context from "./components/context/Context"
 import HomeScene from './components/home/HomeSceneMap/HomeScene';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Preload from './components/preload/Preload';
