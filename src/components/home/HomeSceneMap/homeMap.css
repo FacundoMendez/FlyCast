@@ -19,6 +19,24 @@
 }
 
 
+.preloadMap{
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-color: black;
+    z-index: 9999999 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadigMap{
+    width: 0rem;
+    height: .1rem;
+    background-color: rgb(83, 83, 83);
+}
+
+
 /* button active scene */
 
 

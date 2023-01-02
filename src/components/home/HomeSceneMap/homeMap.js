@@ -1,8 +1,9 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import map from "./assets/map11.png"
+import mapPlane from "./assets/mapPlane3.jpg"
 import cloud from "./assets/cloud2.png"
-
+import gsap from "gsap";
 
 const homeMap = () => {
     const mapCanvas = document.querySelector(".homeSceneCanvas")
@@ -28,10 +29,10 @@ const homeMap = () => {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     })
 
-
+    
 
     const camera = new THREE.PerspectiveCamera(75 , size.width/size.height , 0.1 , 1000)
-    camera.position.z = 12
+    camera.position.z = 50
 
     scene.add(camera)
 
@@ -45,22 +46,34 @@ const homeMap = () => {
     renderer.setSize(size.width , size.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
+
+    /* textures */
+
     const textureLoader = new THREE.TextureLoader()
     const mapp = textureLoader.load(map)
+    const mappPlane = textureLoader.load(mapPlane)
     const cloudTexture = textureLoader.load(cloud)
 
 
-    const plane = new THREE.PlaneBufferGeometry(46,25)
+    /* light */
+
+    const ambientLight = new THREE.AmbientLight(0xffffff ,1)
+    scene.add(ambientLight)
+
+
+
+ 
+
+    /* map */
+
+    const plane = new THREE.PlaneBufferGeometry(100,50)
     const materialPlane = new THREE.MeshPhysicalMaterial({
-        map:mapp , 
+        map:mappPlane , 
     })
     const meshPlane = new THREE.Mesh(plane , materialPlane)
 
     scene.add(meshPlane)
-
-
-    const ambientLight = new THREE.AmbientLight(0xffffff ,1)
-    scene.add(ambientLight)
 
     
 
@@ -69,9 +82,7 @@ const homeMap = () => {
     controls.enablePan = false
     // Desactiva la rotación y el desplazamiento en el eje Z
     controls.enableRotate = false;
-    controls.minDistance = 8;
-    controls.maxDistance = 12;
-
+ 
 
 
     // Obtiene la posición actual del mouse
@@ -98,53 +109,52 @@ const homeMap = () => {
       });
 
 
-    // Crea una variable para almacenar la posición actual del plano
-    let currentPosition = {
-        x: 0,
-        y: 0
-    };
+  
 
-    const planeWidth = 46;
-    const planeHeight = 25;
+    /* clouds */
 
-    const minX = -planeWidth / 2;
-    const maxX = planeWidth / 2;
-    const minY = -planeHeight / 2;
-    const maxY = planeHeight / 2;
+    const cloudGeometry = new THREE.PlaneBufferGeometry(6, 4);
+    const cloudMaterialIz = new THREE.MeshBasicMaterial({
+      map: cloudTexture,
+      transparent: true,
+    });
+    const meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterialIz);
+    
+    meshCloud.position.set(0, 0 , 18.5 );
+    scene.add(meshCloud);
 
+
+    const cloudGeometryDer = new THREE.PlaneBufferGeometry(9,6);
+    const cloudMaterialDer = new THREE.MeshBasicMaterial({
+      map: cloudTexture,
+      transparent: true,
+    });
+    const meshCloudDer = new THREE.Mesh(cloudGeometryDer, cloudMaterialDer);
+    
+    meshCloudDer.position.set(0, 0 , 17);
+    scene.add(meshCloudDer);
 
     
 
-    /* cloud */
-    const numClouds = 10;
-    let meshCloud;
-    const clouds = [];
+  // Crea una variable para almacenar la posición actual del plano
+    let currentPosition = {
+      x: 0,
+      y: 0
+  };
 
-    for (let i = 0; i < numClouds; i++) {
-        const cloudGeometry = new THREE.PlaneBufferGeometry(6, 3);
-        const cloudMaterial = new THREE.MeshBasicMaterial({
-          map: cloudTexture,
-          transparent: true,
-        });
-        meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-        meshCloud.position.set(
-            minX + Math.random() * planeWidth,
-            minY + Math.random() * planeHeight,
-            -5 + Math.random() * 20
-          );
-        clouds.push(meshCloud);
-        scene.add(meshCloud);
-      }
+  const planeWidth = 100;
+  const planeHeight = 50;
 
+  const minX = -planeWidth / 2;
+  const maxX = planeWidth / 2;
+  const minY = -planeHeight / 2;
+  const maxY = planeHeight / 2;
+
+  
       
-      const prevPosition = {
-        x: currentPosition.x,
-        y: currentPosition.y,
-      };
-
     // Mueve la cámara en el eje X y Y utilizando el movimiento del mouse
     function updateCamera() {
-        const velocidadDeMov = 0.05;
+        const velocidadDeMov = 0.09;
 
         currentPosition.x += (cursor.x - currentPosition.x) * velocidadDeMov;
         currentPosition.y += (cursor.y - currentPosition.y) * velocidadDeMov;
@@ -154,18 +164,92 @@ const homeMap = () => {
         currentPosition.y = Math.max(minY, Math.min(currentPosition.y, maxY));
             
         // Aplica la posición interpolada al plano
-        meshPlane.position.x = currentPosition.x;
-        meshPlane.position.y = currentPosition.y;
+        meshPlane.position.x = currentPosition.x -1;
+        meshPlane.position.y = currentPosition.y -2;
 
-      /*   for (const cloud of clouds) {
-            cloud.position.x =  prevPosition.x;
-            cloud.position.y =  prevPosition.y;
-          } */
-          
+        meshCloud.position.x = currentPosition.x -5 ;
+        meshCloud.position.y = currentPosition.y -2  ;
+
+        meshCloudDer.position.x = currentPosition.x + 10 ;
+        meshCloudDer.position.y = currentPosition.y + 2 ;
+
     }
 
 
 
+    
+    const introMovement = () =>{
+
+      const cielo = new THREE.BoxBufferGeometry(200, 100, 40)
+      const cielomaterial = new THREE.MeshBasicMaterial({
+        color: "#5c8291",
+        transparent: true,
+        side: THREE.DoubleSide
+      })
+      const meshCielo = new THREE.Mesh(cielo, cielomaterial)
+
+      meshCielo.position.set(0 , 0 , -10)
+
+      scene.add(meshCielo)
+
+
+          /* cloud */
+    let meshCloud
+    const numClouds = 35;
+    const clouds = [];
+    const cloudGeometry = new THREE.PlaneBufferGeometry(30, 20);
+
+    let cloudMaterial = new THREE.MeshBasicMaterial({
+      map: cloudTexture,
+      transparent: true,
+      opacity: .8
+    });
+
+    for (let i = 0; i < numClouds; i++) {
+    
+        meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        meshCloud.position.set(
+          -13 + Math.random() * 25,
+          -25 + Math.random() * planeHeight,
+          22.6 + Math.random() * 18
+        );
+        clouds.push(meshCloud);
+        scene.add(meshCloud);
+      }
+
+
+
+      const updateZoomControls = () => {
+        controls.maxDistance= 23
+        controls.minDistance= 19
+
+      }
+
+
+      gsap.to(camera.position, {
+        z: 23,
+        duration: 2.5,
+        onComplete:updateZoomControls
+      })
+      gsap.to(cielomaterial, {
+        opacity: .9,
+        delay: 1
+      })
+      gsap.to(cielomaterial, {
+        opacity: 0,
+        delay: 1.5
+      })
+      gsap.to(cloudMaterial, {
+        opacity: 0,
+        delay: 1.5,
+      })
+
+
+    }
+
+
+
+introMovement()
 
 
     const animate = () => {
