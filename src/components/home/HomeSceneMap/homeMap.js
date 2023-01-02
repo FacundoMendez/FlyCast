@@ -1,6 +1,8 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import map from "./assets/map10.jpg"
+import map from "./assets/map11.png"
+import cloud from "./assets/cloud2.png"
+
 
 const homeMap = () => {
     const mapCanvas = document.querySelector(".homeSceneCanvas")
@@ -45,6 +47,7 @@ const homeMap = () => {
 
     const textureLoader = new THREE.TextureLoader()
     const mapp = textureLoader.load(map)
+    const cloudTexture = textureLoader.load(cloud)
 
 
     const plane = new THREE.PlaneBufferGeometry(46,25)
@@ -68,8 +71,6 @@ const homeMap = () => {
     controls.enableRotate = false;
     controls.minDistance = 8;
     controls.maxDistance = 12;
-
-
 
 
 
@@ -110,7 +111,36 @@ const homeMap = () => {
     const maxX = planeWidth / 2;
     const minY = -planeHeight / 2;
     const maxY = planeHeight / 2;
-        
+
+
+    
+
+    /* cloud */
+    const numClouds = 10;
+    let meshCloud;
+    const clouds = [];
+
+    for (let i = 0; i < numClouds; i++) {
+        const cloudGeometry = new THREE.PlaneBufferGeometry(6, 3);
+        const cloudMaterial = new THREE.MeshBasicMaterial({
+          map: cloudTexture,
+          transparent: true,
+        });
+        meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        meshCloud.position.set(
+            minX + Math.random() * planeWidth,
+            minY + Math.random() * planeHeight,
+            -5 + Math.random() * 20
+          );
+        clouds.push(meshCloud);
+        scene.add(meshCloud);
+      }
+
+      
+      const prevPosition = {
+        x: currentPosition.x,
+        y: currentPosition.y,
+      };
 
     // Mueve la cámara en el eje X y Y utilizando el movimiento del mouse
     function updateCamera() {
@@ -126,6 +156,12 @@ const homeMap = () => {
         // Aplica la posición interpolada al plano
         meshPlane.position.x = currentPosition.x;
         meshPlane.position.y = currentPosition.y;
+
+      /*   for (const cloud of clouds) {
+            cloud.position.x =  prevPosition.x;
+            cloud.position.y =  prevPosition.y;
+          } */
+          
     }
 
 
@@ -133,6 +169,8 @@ const homeMap = () => {
 
 
     const animate = () => {
+        const time = Date.now();
+   
         controls.update()
         updateCamera()
 
