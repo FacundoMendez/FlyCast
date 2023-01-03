@@ -16,25 +16,9 @@
     min-height: 100vh;
     background-color: rgb(0, 0, 0);
     overflow: hidden;
+    opacity: 0;
 }
 
-
-.preloadMap{
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    background-color: black;
-    z-index: 9999999 !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loadigMap{
-    width: 0rem;
-    height: .1rem;
-    background-color: rgb(83, 83, 83);
-}
 
 
 /* button active scene */

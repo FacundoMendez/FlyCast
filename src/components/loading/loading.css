@@ -1,0 +1,50 @@
+
+.preloadMap{
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-color: black;
+    z-index: 9999999 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxLoading{
+    width:38rem;
+    transition: all 1s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.loadigMap{
+    width: 0%;
+    height: .2rem;
+    transition: all 1s ease-in-out;
+}
+
+
+.titleLoading {
+    background: linear-gradient(to bottom, #ad9d79 22%,  #cfc09f 26%, #cfc09f 27%, #ffe699 40%, #3a2c0f 78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    position: relative;
+    text-transform: uppercase;
+    font-size: 7rem;
+    margin: 0;
+    font-weight: 400;
+  }
+  
+.titleLoading:after {
+    content: attr(data-heading);
+    left: 0;
+    top: 0;
+    z-index: -1;
+    position: absolute;
+    text-shadow: -1px 0 1px #c6bb9f, 0 1px 1px #c6bb9f, 5px 5px 10px rgba(0, 0, 0, 0.4), -5px -5px 10px rgba(0, 0, 0, 0.4);
+}

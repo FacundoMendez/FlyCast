@@ -32,7 +32,7 @@ const homeMap = () => {
     
 
     const camera = new THREE.PerspectiveCamera(75 , size.width/size.height , 0.1 , 1000)
-    camera.position.z = 50
+    camera.position.z = 60
 
     scene.add(camera)
 
@@ -180,51 +180,53 @@ const homeMap = () => {
     
     const introMovement = () =>{
 
-      const cielo = new THREE.BoxBufferGeometry(200, 100, 40)
+
+      /* cloud */
+      let meshCloud = null
+      const numClouds = 35;
+      const cloudGeometry = new THREE.PlaneBufferGeometry(30, 20);
+  
+      let cloudMaterial = new THREE.MeshBasicMaterial({
+        map: cloudTexture,
+        transparent: true,
+        opacity: .8
+      });
+  
+      for (let i = 0; i < numClouds; i++) {
+      
+          meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+          meshCloud.position.set(
+            -13 + Math.random() * 25,
+            -25 + Math.random() * planeHeight,
+            22.6 + Math.random() * 18
+          );
+          scene.add(meshCloud);
+      }
+  
+
+
+
+      const cielo = new THREE.BoxBufferGeometry(180, 100, 40)
       const cielomaterial = new THREE.MeshBasicMaterial({
         color: "#5c8291",
         transparent: true,
         side: THREE.DoubleSide
       })
       const meshCielo = new THREE.Mesh(cielo, cielomaterial)
-
       meshCielo.position.set(0 , 0 , -10)
 
-      scene.add(meshCielo)
-
-
-          /* cloud */
-    let meshCloud
-    const numClouds = 35;
-    const clouds = [];
-    const cloudGeometry = new THREE.PlaneBufferGeometry(30, 20);
-
-    let cloudMaterial = new THREE.MeshBasicMaterial({
-      map: cloudTexture,
-      transparent: true,
-      opacity: .8
-    });
-
-    for (let i = 0; i < numClouds; i++) {
-    
-        meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-        meshCloud.position.set(
-          -13 + Math.random() * 25,
-          -25 + Math.random() * planeHeight,
-          22.6 + Math.random() * 18
-        );
-        clouds.push(meshCloud);
-        scene.add(meshCloud);
+      if(meshCloud !== null ){
+        scene.add(meshCielo)
       }
 
 
-
+    
       const updateZoomControls = () => {
         controls.maxDistance= 23
         controls.minDistance= 19
-
       }
 
+      
 
       gsap.to(camera.position, {
         z: 23,
