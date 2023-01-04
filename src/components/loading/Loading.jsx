@@ -28,9 +28,7 @@ const Loading = ({porcentaje, setPorcentaje}) => {   //recive 2 parametros, uno 
           });
         }, 500);
 
-
-
-    },[porcentaje])
+    },[porcentaje, setPorcentaje])
 
 
 
@@ -38,8 +36,12 @@ const Loading = ({porcentaje, setPorcentaje}) => {   //recive 2 parametros, uno 
   return (
     <div className="preloadMap">
         <div className="boxLoading">
-            <p className="titleLoading"> Loading... </p>
-            <div className="loadigMap" style={style}></div>
+          <div className="loadingLoad">
+            <p className="titleLoading"> Loading </p>
+            <span class="loader"></span>
+          </div>
+
+          <div className="loadigMap" style={style}></div>
         </div>
     </div>
   )

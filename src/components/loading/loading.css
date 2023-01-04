@@ -11,7 +11,7 @@
 }
 
 .boxLoading{
-    width:38rem;
+    width:34.5rem;
     transition: all 1s ease-in-out;
     display: flex;
     justify-content: center;
@@ -26,18 +26,25 @@
     transition: all 1s ease-in-out;
 }
 
+.loadingLoad{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+
 
 .titleLoading {
-    background: linear-gradient(to bottom, #ad9d79 22%,  #cfc09f 26%, #cfc09f 27%, #ffe699 40%, #3a2c0f 78%);
+    background: linear-gradient(to bottom, #cebe99 22%,  #cfc09f 26%, #cfc09f 27%, #ffe699 40%, #3a2c0f 78%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #fff;
     position: relative;
+    font-weight: 600 ;
     text-transform: uppercase;
-    font-size: 7rem;
+    font-size: 6rem;
     margin: 0;
-    font-weight: 400;
   }
   
 .titleLoading:after {
@@ -48,3 +55,38 @@
     position: absolute;
     text-shadow: -1px 0 1px #c6bb9f, 0 1px 1px #c6bb9f, 5px 5px 10px rgba(0, 0, 0, 0.4), -5px -5px 10px rgba(0, 0, 0, 0.4);
 }
+
+
+.loader, .loader:before, .loader:after {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    animation-fill-mode: both;
+    animation: bblFadInOut 1.8s infinite ease-in-out;
+  }
+  .loader {
+    color: #ffe8b3e8;
+    font-size: 3.5px;
+    position: relative;
+    text-indent: -9999em;
+    transform: translateZ(0);
+    animation-delay: -0.16s;
+    top: .5rem;
+  }
+  .loader:before,
+  .loader:after {
+    content: '';
+    position: absolute;
+  }
+  .loader:before {
+    left: -4.5em;
+    animation-delay: -0.32s;
+  }
+  .loader:after {
+    left: 4.5em;
+  }
+  
+  @keyframes bblFadInOut {
+    0%, 80%, 100% { box-shadow: 0 2.5em 0 -1.3em }
+    40% { box-shadow: 0 2.5em 0 0 }
+  }

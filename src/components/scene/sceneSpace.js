@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import pajaro from "./src/vuelo.glb"
+import pajaro from "./src/Aguila.glb"
 import terrain from "./mapNieve2.glb"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
@@ -220,7 +220,7 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
         
 
         // Calcula el ángulo de rotación en el eje Y en función de la posición del cursor
-        const rotationY = (cursor.x * 5) % 360;
+        const rotationY = (cursor.x * 3) % 360;
 
         // Calcula el ángulo de rotación en el eje X en función de la posición del cursor
         const rotationX = -(cursor.y * 1)  ;
