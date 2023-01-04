@@ -284,7 +284,7 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
              terrainForest= modelTerrainGltf.scene
              scene.add(terrainForest)
              terrainForest.position.set(0, -5.4, -.5)
-             terrainForest.scale.set(1.7,1.7,1.7)
+             terrainForest.scale.set(1,1,1)
              setPreloadTerrain(true)
          }
      )

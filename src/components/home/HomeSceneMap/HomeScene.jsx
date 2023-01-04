@@ -51,12 +51,9 @@ const HomeScene = () => {
 
   return (
     <div className="containerSceneHome">
-      
-  
 
-      <Loading porcentaje={porcentaje} setPorcentaje={setPorcentaje} /> 
+        <Loading porcentaje={porcentaje} setPorcentaje={setPorcentaje} /> 
       
-  
         <canvas className='homeSceneCanvas'></canvas>
         
         <NavLink to="/world"> 

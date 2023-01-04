@@ -1,6 +1,5 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import map from "./assets/map11.png"
 import mapPlane from "./assets/mapPlane3.jpg"
 import cloud from "./assets/cloud2.png"
 import gsap from "gsap";
@@ -47,11 +46,20 @@ const homeMap = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 
+  /* Orbit Controls */
+    const controls = new OrbitControls(camera, mapCanvas)
+    controls.enableDamping= true
+    controls.enablePan = false
+    // Desactiva la rotación y el desplazamiento en el eje Z
+    controls.enableRotate = false;
+
+
+
+
 
     /* textures */
 
     const textureLoader = new THREE.TextureLoader()
-    const mapp = textureLoader.load(map)
     const mappPlane = textureLoader.load(mapPlane)
     const cloudTexture = textureLoader.load(cloud)
 
@@ -75,16 +83,22 @@ const homeMap = () => {
 
     scene.add(meshPlane)
 
-    
-
-    const controls = new OrbitControls(camera, mapCanvas)
-    controls.enableDamping= true
-    controls.enablePan = false
-    // Desactiva la rotación y el desplazamiento en el eje Z
-    controls.enableRotate = false;
- 
 
 
+
+
+
+    /* sections map */
+    const section1map = new THREE.OctahedronGeometry( 1 );
+    const materialS1 = new THREE.MeshBasicMaterial({
+      color:"#F5D0A9",
+      side: THREE.DoubleSide 
+    })
+    const meshS1 = new THREE.Mesh(section1map , materialS1)
+    scene.add(meshS1)
+
+
+  
     // Obtiene la posición actual del mouse
 
     const cursor = {
@@ -117,6 +131,7 @@ const homeMap = () => {
     const cloudMaterialIz = new THREE.MeshBasicMaterial({
       map: cloudTexture,
       transparent: true,
+      opacity:.9
     });
     const meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterialIz);
     
@@ -125,11 +140,7 @@ const homeMap = () => {
 
 
     const cloudGeometryDer = new THREE.PlaneBufferGeometry(9,6);
-    const cloudMaterialDer = new THREE.MeshBasicMaterial({
-      map: cloudTexture,
-      transparent: true,
-    });
-    const meshCloudDer = new THREE.Mesh(cloudGeometryDer, cloudMaterialDer);
+    const meshCloudDer = new THREE.Mesh(cloudGeometryDer, cloudMaterialIz);
     
     meshCloudDer.position.set(0, 0 , 17);
     scene.add(meshCloudDer);
@@ -167,11 +178,14 @@ const homeMap = () => {
         meshPlane.position.x = currentPosition.x -1;
         meshPlane.position.y = currentPosition.y -2;
 
-        meshCloud.position.x = currentPosition.x -5 ;
-        meshCloud.position.y = currentPosition.y -2  ;
+        meshCloud.position.x = currentPosition.x -6 ;
+        meshCloud.position.y = currentPosition.y -3  ;
 
         meshCloudDer.position.x = currentPosition.x + 10 ;
         meshCloudDer.position.y = currentPosition.y + 2 ;
+        
+        meshS1.position.x = currentPosition.x - 15 ;
+        meshS1.position.y = currentPosition.y +2 ;
 
     }
 
@@ -181,85 +195,80 @@ const homeMap = () => {
     const introMovement = () =>{
 
 
-      /* cloud */
-      let meshCloud = null
-      const numClouds = 35;
-      const cloudGeometry = new THREE.PlaneBufferGeometry(30, 20);
-  
-      let cloudMaterial = new THREE.MeshBasicMaterial({
-        map: cloudTexture,
-        transparent: true,
-        opacity: .8
-      });
-  
-      for (let i = 0; i < numClouds; i++) {
+          /* cloud */
+          let meshCloud = null
+          const numClouds = 35;
+          const cloudGeometry = new THREE.PlaneBufferGeometry(30, 20);
       
-          meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-          meshCloud.position.set(
-            -13 + Math.random() * 25,
-            -25 + Math.random() * planeHeight,
-            22.6 + Math.random() * 18
-          );
-          scene.add(meshCloud);
-      }
-  
-
-
-
-      const cielo = new THREE.BoxBufferGeometry(180, 100, 40)
-      const cielomaterial = new THREE.MeshBasicMaterial({
-        color: "#5c8291",
-        transparent: true,
-        side: THREE.DoubleSide
-      })
-      const meshCielo = new THREE.Mesh(cielo, cielomaterial)
-      meshCielo.position.set(0 , 0 , -10)
-
-      if(meshCloud !== null ){
-        scene.add(meshCielo)
-      }
-
-
-    
-      const updateZoomControls = () => {
-        controls.maxDistance= 23
-        controls.minDistance= 19
-      }
-
+          let cloudMaterial = new THREE.MeshBasicMaterial({
+            map: cloudTexture,
+            transparent: true,
+            opacity: .8
+          });
+      
+          for (let i = 0; i < numClouds; i++) {
+          
+              meshCloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+              meshCloud.position.set(
+                -13 + Math.random() * 25,
+                -25 + Math.random() * planeHeight,
+                22.6 + Math.random() * 18
+              );
+              scene.add(meshCloud);
+          }
       
 
-      gsap.to(camera.position, {
-        z: 23,
-        duration: 2.5,
-        onComplete:updateZoomControls
-      })
-      gsap.to(cielomaterial, {
-        opacity: .9,
-        delay: 1
-      })
-      gsap.to(cielomaterial, {
-        opacity: 0,
-        delay: 1.5
-      })
-      gsap.to(cloudMaterial, {
-        opacity: 0,
-        delay: 1.5,
-      })
 
+          const cielo = new THREE.BoxBufferGeometry(180, 100, 40)
+          const cielomaterial = new THREE.MeshBasicMaterial({
+            color: "#5c8291",
+            transparent: true,
+            side: THREE.DoubleSide
+          })
+          const meshCielo = new THREE.Mesh(cielo, cielomaterial)
+          meshCielo.position.set(0 , 0 , -10)
+
+          if(meshCloud !== null ){
+            scene.add(meshCielo)
+          }
+
+        
+          const updateZoomControls = () => {
+            controls.maxDistance= 23
+            controls.minDistance= 19
+          }
+
+          
+          gsap.to(camera.position, {
+            z: 23,
+            duration: 2.5,
+            onComplete:updateZoomControls
+          })
+          gsap.to(cielomaterial, {
+            opacity: .9,
+            delay: 1
+          })
+          gsap.to(cielomaterial, {
+            opacity: 0,
+            delay: 1.5
+          })
+          gsap.to(cloudMaterial, {
+            opacity: 0,
+            delay: 1.5,
+          })
 
     }
 
 
 
-introMovement()
+    introMovement()
 
 
     const animate = () => {
-        const time = Date.now();
    
         controls.update()
         updateCamera()
-
+        meshS1.rotation.z += 0.05
         renderer.render(scene, camera)
         window.requestAnimationFrame(animate)
     }

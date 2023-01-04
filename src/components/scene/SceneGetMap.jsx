@@ -2,14 +2,15 @@ import React, { useEffect, useState, useRef }  from 'react'
 import { NavLink } from 'react-router-dom'
 import sceneSpace from './sceneSpace'
 import "./scene.css"
+import Loading from '../loading/Loading'
 
 const SceneGetMap = () => {
 
     const [preloadTerrain , setPreloadTerrain] = useState(false)
     const [preloadModel , setPreloadModel] = useState(false)
+    const [porcentaje , setPorcentaje] = useState(0)      //cantidad en %
 
     const sceneRef = useRef(null);
-
 
     useEffect(() => {
 
@@ -31,7 +32,7 @@ const SceneGetMap = () => {
         <>
             <div>
                 <div className={preloadTerrain & preloadModel ? 'cargandoActive ' : "cargando "}>
-                    <p className={preloadTerrain & preloadModel ? 'loadActive ' : "load "}>cargando...</p> 
+                  <Loading porcentaje={porcentaje} setPorcentaje={setPorcentaje} /> 
                 </div>
                 <canvas className="webGlScene"></canvas> 
                 

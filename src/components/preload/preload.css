@@ -1,9 +1,23 @@
+.boxPreload{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+    z-index: 9999999 !important;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .preload{
     position: relative;
     top: 0;
     width: 100%;
     min-height: 100vh;
-    z-index: 9999999 !important;
+    z-index: 999999 !important;
     background-image: url("../home/HomeSceneMap/assets/rocks.png");
     background-size: cover;
     overflow: hidden;
@@ -12,7 +26,9 @@
     align-items: center;
     flex-direction: column;
     gap: 3rem;
+    opacity: 0;
 }
+
 
 .smokePreload{
     height: 100%;
@@ -67,6 +83,7 @@
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.473));
     transition: all .3s ease;
+    pointer-events: none;
 }
 
 .buttonPreload{
@@ -82,6 +99,7 @@
     opacity: 1;
     transition: all .3s ease;
 }
+
 
 .buttonPreload:hover ~ .enter {
     color: rgb(255, 225, 190);
