@@ -31,6 +31,8 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
 
 
 
+    /*camera  */
+
     let camera;
 
     function setCamera(){
@@ -43,6 +45,10 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
 
     setCamera()
 
+
+
+
+    /* renderer */
 
 
     let renderer;
@@ -65,23 +71,20 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
 
 
 
+    /* lights */
+
     function setLights(){
         const ambientLight = new THREE.AmbientLight(0xffffff ,5)
         scene.add(ambientLight);
     }
 
-
     setLights()
-
 
 
     //fog(niebla)
 
     const fog = new THREE.Fog("#000000", 1, 90)
-
     scene.fog = fog
-
-
 
 
 
@@ -111,16 +114,19 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
 
 
 
+    /* draco loader */
+
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath('/draco/')
+    const gltfLoader = new GLTFLoader()
+    gltfLoader.setDRACOLoader(dracoLoader)
 
 
+
+    /* MODEL aguila */
 
     function modelFly(){
-        const dracoLoader = new DRACOLoader()
-        dracoLoader.setDecoderPath('/draco/')
-    
-        const gltfLoader = new GLTFLoader()
-        gltfLoader.setDRACOLoader(dracoLoader)
-    
+
         gltfLoader.load(
             pajaro,
             (modelVuelo) =>
@@ -216,21 +222,21 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
         const maxHeight = 55;
 
         const scaleFactorX = distanceX / centerX * 0.4;
-        const scaleFactorY = distanceY / centerY * 0.7;
+     /*    const scaleFactorY = distanceY / centerY * 0.7; */
         
 
         // Calcula el ángulo de rotación en el eje Y en función de la posición del cursor
-        const rotationY = (cursor.x * 3) % 360;
+        const rotationY = (cursor.x * 4) % 360;
 
         // Calcula el ángulo de rotación en el eje X en función de la posición del cursor
         const rotationX = -(cursor.y * 1)  ;
         
 
         // Rotación del modelo en el eje Y en función del ángulo calculado
-        PajaroVuelo.rotation.y += ((rotationY *4.3) * scaleFactorX - PajaroVuelo.rotation.y) * 0.015;
+        PajaroVuelo.rotation.y += ((rotationY *4) * scaleFactorX - PajaroVuelo.rotation.y) * 0.02;
         
         // Suavizar la rotación en el eje X con una tasa de suavizado de 0.1
-        PajaroVuelo.rotation.x += (rotationX * scaleFactorY - PajaroVuelo.rotation.x) * 0.7;
+        PajaroVuelo.rotation.x += (rotationX * scaleFactorX - PajaroVuelo.rotation.x) * 0.8;
 
 
         /*velocidad de vuelo del aguila  */
@@ -264,27 +270,24 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
 
 
 
+
  /* ------------------------------------------------------TERRAIN-------------------------------------------------------------- */
 
 
 
  let terrainForest = null
 
+
  function modelTerrain(){
-     const dracoLoader = new DRACOLoader()
-     dracoLoader.setDecoderPath('/draco/')
- 
-     const gltfLoader = new GLTFLoader()
-     gltfLoader.setDRACOLoader(dracoLoader)
- 
-     gltfLoader.load(
+     
+    gltfLoader.load(
          terrain,
          (modelTerrainGltf) =>
          {
              terrainForest= modelTerrainGltf.scene
              scene.add(terrainForest)
              terrainForest.position.set(0, -5.4, -.5)
-             terrainForest.scale.set(1,1,1)
+             terrainForest.scale.set(.7,.7,.7)
              setPreloadTerrain(true)
          }
      )
@@ -292,8 +295,6 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
  }
 
  modelTerrain()
-
-
 
 
 
@@ -325,8 +326,21 @@ const sceneSpace = (setPreloadModel, setPreloadTerrain) => {
     }
     
     animate()
+
+         /* OPTIMIZACION */
+  
+         gltfLoader.verticesNeedUpdate = true; 
+         gltfLoader.elementsNeedUpdate = true; 
+         gltfLoader.morphTargetsNeedUpdate = true; 
+         gltfLoader.uvsNeedUpdate = true;
+         gltfLoader.normalsNeedUpdate = true; 
+         gltfLoader.colorsNeedUpdate = true; 
+         gltfLoader.needsUpdate = true
+    
     
     renderer.render(scene,camera)
+
+    
         
 }
 
