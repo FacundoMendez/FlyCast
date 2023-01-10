@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import mapPlane from "./assets/mapPlane3.jpg"
+import mapPlane from "./assets/mapPlane8.png"
 import cloud from "./assets/cloud2.png"
 import gsap from "gsap";
 
@@ -219,7 +219,7 @@ const homeMap = () => {
       
 
 
-          const cielo = new THREE.BoxBufferGeometry(180, 100, 40)
+          const cielo = new THREE.BoxBufferGeometry(160, 100, 40)
           const cielomaterial = new THREE.MeshBasicMaterial({
             color: "#5c8291",
             transparent: true,
