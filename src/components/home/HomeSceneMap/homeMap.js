@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import mapPlane from "./assets/mapPlane8.png"
+import mapPlane from "./assets/mapPlane88.png"
 import cloud from "./assets/cloud2.png"
 import gsap from "gsap";
 
