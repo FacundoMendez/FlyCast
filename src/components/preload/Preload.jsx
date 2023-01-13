@@ -21,7 +21,6 @@ const Preload = () => {
     setStyle(newStyle);
 
 
-
     const interval = setInterval(() => {
       setPorcentaje(prevPorcentaje => {
         if (prevPorcentaje >= 100) {
@@ -33,22 +32,33 @@ const Preload = () => {
     }, 100);
 
 
-    if(porcentaje === 100){
+
+    const animate = () => {
+      if(porcentaje === 100){
           
-      const tl = gsap.timeline({
-        duration: 1.5 
-      })
+        const tl = gsap.timeline({
+          duration: 1.5 
+        })
+  
+        tl.to(".boxPreload", {
+          opacity:0 ,
+          zIndex: -1,
+          visibility:"hidden",
+        })
+  
+        tl.to(".preload",{
+          opacity: 2,
+          duration: 2.5,
+        })
+      }
+    }
 
-      tl.to(".boxPreload", {
-        opacity:0 ,
-        zIndex: -1,
-        visibility:"hidden",
-      })
+    animate()
 
-      tl.to(".preload",{
-        opacity: 2,
-        duration: 2.5,
-      })
+
+    return () => {
+      animate()
+
     }
 
   },[porcentaje, setPorcentaje])

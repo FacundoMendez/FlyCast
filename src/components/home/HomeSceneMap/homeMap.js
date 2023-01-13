@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import mapPlane from "./assets/mapPlane88.png"
+import mapPlane from "./assets/mapPlane88.jpg"
 import cloud from "./assets/cloud2.png"
 import gsap from "gsap";
 
@@ -62,6 +62,9 @@ const homeMap = () => {
     const textureLoader = new THREE.TextureLoader()
     const mappPlane = textureLoader.load(mapPlane)
     const cloudTexture = textureLoader.load(cloud)
+
+    cloudTexture.mipmaps = THREE.NearestFilter
+    mappPlane.mipmaps = THREE.NearestFilter
 
 
     /* light */
@@ -218,7 +221,7 @@ const homeMap = () => {
           }
       
 
-
+/* 
           const cielo = new THREE.BoxBufferGeometry(160, 100, 40)
           const cielomaterial = new THREE.MeshBasicMaterial({
             color: "#5c8291",
@@ -231,7 +234,7 @@ const homeMap = () => {
           if(meshCloud !== null ){
             scene.add(meshCielo)
           }
-
+ */
         
           const updateZoomControls = () => {
             controls.maxDistance= 23
@@ -244,14 +247,14 @@ const homeMap = () => {
             duration: 2.5,
             onComplete:updateZoomControls
           })
-          gsap.to(cielomaterial, {
+/*           gsap.to(cielomaterial, {
             opacity: .9,
             delay: 1
           })
           gsap.to(cielomaterial, {
             opacity: 0,
             delay: 1.5
-          })
+          }) */
           gsap.to(cloudMaterial, {
             opacity: 0,
             delay: 1.5,

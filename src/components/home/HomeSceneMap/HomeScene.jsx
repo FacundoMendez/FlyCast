@@ -60,10 +60,6 @@ const HomeScene = () => {
           <div className="buttonScene"> active Scene  </div>
         </NavLink>
 
-
-
-
-
     </div> 
   )
 }
